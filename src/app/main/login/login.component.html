@@ -1,0 +1,44 @@
+<!--<h1>LOGIN</h1>
+<form >
+  <div>
+    <label for="">USUARIO</label>
+    <input type="text" name="" id="">
+  </div>
+  <div>
+    <label for="">password</label>
+    <input type="password" name="" id="">
+  </div>
+  <a href=#>ingresar</a><br><br>
+  <a routerLink="/registro">Crear cuenta</a>
+</form>-->
+<form [formGroup]="frmLogIn" (ngSubmit)="onSubmit()">
+  <div fxLayout="row wrap">
+      <!-- col full-->
+      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+          <input type="text" matInput placeholder="USUARIO [nick]" [formControl]="$any(frmLogIn).controls['username']">
+          <!--<small *ngIf="frmLogIn.controls['username'].hasError('required') && frmLogIn.controls['email'].touched" class="text-danger support-text">Nick REQUERIDO...</small>
+          <small *ngIf="frmLogIn.controls[''].hasError('email')" class="text-danger support-text">e-Mail INCORRECTO...</small>-->
+      </div>
+      <!-- col full-->
+      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+          <input matInput type="password" placeholder="CLAVE [pwd]" [formControl]="$any(frmLogIn).controls['password']">
+          <!--<small *ngIf="frmLogIn.controls['password'].hasError('required') && frmLogIn.controls['password'].touched" class="text-danger support-text">Clave REQUERIDA...</small>-->
+      </div>
+      <!-- col half-->
+      
+      <!-- col half-->
+      <!-- div fxFlex.gt-sm="50" fxFlex.gt-xs="50" class="text-right">
+          <a [routerLink]="['/authentication/forgot']" class="link">Olvido PWD?</a>
+      </div -->
+      <!-- col full-->
+      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+          <button mat-raised-button color="primary" class="btn-block btn-lg m-t-20 m-b-20" type="submit" [disabled]="!frmLogIn.valid">Conectarse...</button>
+      </div>
+      <!-- col full-->
+      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="text-center">
+          <!-- span>Tiene una cuenta?
+              <a [routerLink]="['/authentication/register']" class="text-info link">Registrarse</a>
+          </span -->
+      </div>
+  </div>
+</form>

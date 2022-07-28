@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'tesis-interfaz';
+  title2 = "gabriel"
+  
 }
