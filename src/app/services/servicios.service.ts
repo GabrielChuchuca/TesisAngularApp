@@ -59,5 +59,18 @@ export class ServiciosService {
     return throwError (pErra.error);
   }
 
-  
+  get_actividades_libro(){
+    return this.usrHttp.get("http://127.0.0.1:8000/actividades", httpOptionsJWT);
+  }
+
+  get_one_resource(id: string){
+    return this.usrHttp.get("http://127.0.0.1:8000/recurso/"+id, httpOptionsJWT);
+  }
+
+  get_habilidades(){
+    return this.usrHttp.get("http://127.0.0.1:8000/habilidades", httpOptionsJWT);
+  }
+  get_indicadores(){
+    return this.usrHttp.get("http://127.0.0.1:8000/indicadores", httpOptionsJWT);
+  }
 }

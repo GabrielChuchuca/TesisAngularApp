@@ -37,9 +37,9 @@ export class LoginComponent implements OnInit {
     var dataUsua = new Login();
     dataUsua.username = this.frmLogIn.value.username;
     dataUsua.password = this.frmLogIn.value.password;
-    console.log("oS ", dataUsua)
+    //console.log("oS ", dataUsua)
     this.ser.logInJWT(dataUsua).subscribe(resu => {
-      console.log(resu)
+      //console.log(resu)
       window.location.reload();
     })
   }

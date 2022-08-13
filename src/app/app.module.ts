@@ -8,6 +8,11 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './main/login/login.component';
 import { RegistroComponent } from './main/registro/registro.component';
 import { InicioComponent } from './main/inicio/inicio.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTabsModule } from '@angular/material/tabs';
+import { RecursoComponent } from './main/recurso/recurso.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 @NgModule({
@@ -16,6 +21,7 @@ import { InicioComponent } from './main/inicio/inicio.component';
     LoginComponent,
     RegistroComponent,
     InicioComponent,
+    RecursoComponent,
   ],
   imports: [
     BrowserModule,
@@ -23,6 +29,10 @@ import { InicioComponent } from './main/inicio/inicio.component';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    BrowserAnimationsModule,
+    MatTabsModule,
+    MatRadioModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

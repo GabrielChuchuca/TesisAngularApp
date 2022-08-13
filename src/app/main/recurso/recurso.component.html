@@ -1,0 +1,236 @@
+<header>
+    <h1>Usuario: {{sUsua}}</h1>
+    <button onclick="sessionStorage.clear(); window.location.reload();">SALIR CUENTA</button>
+</header>
+<a routerLink="/inicio">ATRAS</a>
+<br>
+<!--<iframe src="https://play.google.com/store/apps/details?id=com.learninga_z.onyourown&hl=es&gl=ec" style="border:0px #ffffff none;" name="myiFrame" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="400px" width="600px" allowfullscreen></iframe>
+<iframe src="https://cuentosparadormir.com/infantiles/cuento/el-lugar-donde-llueve-chocolate" style="border:0px #ffffff none;" name="myiFrame" scrolling="yes" frameborder="1" marginheight="0px" marginwidth="0px" height="400px" width="600px" allowfullscreen></iframe>
+<iframe src="https://www.cokitos.com/las-horas-con-pacman/play/" style="border:0px #ffffff none;" name="myiFrame" scrolling="yes" frameborder="1" marginheight="0px" marginwidth="0px" height="400px" width="600px" allowfullscreen></iframe>
+<iframe src="http://es.childrenslibrary.org/library/books/d/darmarg_01040021/book/index.html" style="border:0px #ffffff none;" name="myiFrame" scrolling="yes" frameborder="1" marginheight="0px" marginwidth="0px" height="400px" width="600px" allowfullscreen></iframe>-->
+<!--<iframe width="250" height="250" frameBorder="0" src="https://play.google.com/store/apps/details?id=com.learninga_z.onyourown&hl=es&gl=ec"></iframe>-->
+
+<body>
+    <mat-tab-group>
+        <mat-tab label="Recurso Apps" *ngIf="recu[0].length > 0">
+            <!--<div style="overflow-x:auto;" *ngIf="recu[0].length > 0;else first">-->
+            <div style="overflow-x:auto;">
+                <table class="table table-dark">
+                    <thead>
+                        <tr>
+                        <th scope="col">Titulo</th>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">Url</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let i of recu[0];let indice=index">
+                        <tr>
+                        <td> {{i.titulo}} </td>
+                        <td> {{i.descripcion}} </td>
+                        <td> <a href={{i.url}} target="_blank" rel="noopener noreferrer" ><span class="material-icons" style="font-size:500%">
+                            exit_to_app
+                            </span></a> </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--<ng-template #first>
+                <div style="overflow-x:auto;">
+                    <table class="table table-dark">
+                        <thead>
+                          <tr>
+                            <th scope="col">Titulo</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td> NO DISPONE DE NINGUN RECURSO </td>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </ng-template>-->
+        </mat-tab>
+        <mat-tab label="Recurso Cuentos" *ngIf="recu[1].length > 0">
+            <!--<div style="overflow-x:auto;" *ngIf="recu[1].length > 0;else second">-->
+            <div style="overflow-x:auto;">
+                <table class="table table-dark">
+                    <thead>
+                        <tr>
+                        <th scope="col">Titulo</th>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">frame</th>
+                        
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let j of recu[1];let indice=index">
+                        <tr>
+                        <td> {{j.titulo}} </td>
+                        <td> {{j.cuento}} </td>
+                        <td> <a href="{{j.url}}" target="_blank" rel="noopener noreferrer">{{j.url}}</a> <br> <div class="iframe-container"> <iframe [src]="domSaniUrlsCuen[indice]" scrolling="yes" frameborder="1" allowfullscreen></iframe></div> </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--<ng-template #second>
+                <div style="overflow-x:auto;">
+                    <table class="table table-dark">
+                        <thead>
+                          <tr>
+                            <th scope="col">Titulo</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td> NO DISPONE DE NINGUN RECURSO </td>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </ng-template>-->
+        </mat-tab>
+        <mat-tab label="Recurso Juegos" *ngIf="recu[2].length > 0">
+            <!--<div style="overflow-x:auto;" *ngIf="recu[2].length > 0;else third">-->
+            <div style="overflow-x:auto;">
+                <table class="table table-dark">
+                    <thead>
+                        <tr>
+                        <th scope="col">Titulo</th>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">Url</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let k of recu[2];let indice=index">
+                        <tr>
+                        <td> {{k.titulo}} </td>
+                        <td> {{k.descripcion}} </td>
+                        <td><a href="{{k.url}}" target="_blank" rel="noopener noreferrer">{{k.url}}</a> <br> <div class="iframe-container"> <iframe [src]="domSaniUrlsJueg[indice]" scrolling="yes" allowfullscreen></iframe></div> </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--<ng-template #third>
+                <div style="overflow-x:auto;">
+                    <table class="table table-dark">
+                        <thead>
+                          <tr>
+                            <th scope="col">Titulo</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td> NO DISPONE DE NINGUN RECURSO </td>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </ng-template>-->
+        </mat-tab>
+        <mat-tab label="Recurso Libros" *ngIf="recu[3].length > 0">
+            <div style="overflow-x:auto;">
+                <!--<table class="table table-dark" *ngIf="recu[3].length > 0;else four">-->
+                <table class="table table-dark">
+                    <thead>
+                        <tr>
+                        <th scope="col">Titulo</th>
+                        <th scope="col">Vista Previa</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let l of recu[3];let indice=index">
+                        <tr>
+                        <td> {{l.titulo}} </td>
+                        <td> <a href="{{l.url}}" target="_blank" rel="noopener noreferrer">{{l.url}}</a> <br> <div class="iframe-container"> <iframe [src]="domSaniUrlsLibr[indice]" scrolling="yes" allowfullscreen></iframe></div> </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--<ng-template #four>
+                <div style="overflow-x:auto;">
+                    <table class="table table-dark">
+                        <thead>
+                          <tr>
+                            <th scope="col">Titulo</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td> NO DISPONE DE NINGUN RECURSO </td>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </ng-template>-->
+        </mat-tab>
+        <mat-tab label="Recurso Tweets" *ngIf="recu[4].length > 0">
+            <div style="overflow-x:auto;">
+                <!--<table class="table table-dark" *ngIf="recu[4].length > 0;else five">-->
+                <table class="table table-dark">
+                    <thead>
+                        <tr>
+                        <th scope="col">Titulo</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let m of recu[4];let indice=index">
+                        <tr>
+                        <td> {{m.tweet}} </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--<ng-template #five>
+                <div style="overflow-x:auto;">
+                    <table class="table table-dark">
+                        <thead>
+                          <tr>
+                            <th scope="col">Titulo</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td> NO DISPONE DE NINGUN RECURSO </td>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </ng-template>-->
+        </mat-tab>
+        <mat-tab label="Recurso Videos" *ngIf="recu[5].length > 0">
+            <!--<div style="overflow-x:auto;" *ngIf="recu[5].length > 0;else six">-->
+            <div style="overflow-x:auto;">
+                <table class="table table-dark">
+                    <thead>
+                        <tr>
+                        <th scope="col">Titulo</th>
+                        <th scope="col">Vista Previa</th>
+                        <th scope="col" *ngIf="band">Texto del Video</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let n of recu[5];let indice=index">
+                        <tr>
+                        <td> {{n.titulo}} </td>
+                        <!--<td> <a href={{n.url}} target="_blank" rel="noopener noreferrer">oe</a> </td>-->
+                        <td> <a href="{{n.url}}" target="_blank" rel="noopener noreferrer">{{n.url}}</a> <br> <div class="iframe-container"> <iframe [src]="domSaniUrlsVide[indice]" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> </div>  </td>
+                        <td *ngIf="band"> {{n.texto}} </td>    
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--<ng-template #six>
+                <div style="overflow-x:auto;">
+                    <table class="table table-dark">
+                        <thead>
+                          <tr>
+                            <th scope="col">Titulo</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td> NO DISPONE DE NINGUN RECURSO </td>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </ng-template>-->
+        </mat-tab>
+      </mat-tab-group>
+</body>
