@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" routerLink="/index"><span class="material-icons">
+          home
+          </span>INICIO</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <p class="nav-link" aria-current="page" ><span class="material-icons">
+                account_circle
+                </span>Usuario: {{sUsua}} - Rol: {{rol}} </p>
+            </li>
+            <li class="nav-item">
+                <p class="nav-link" aria-current="page">Edad Usuario: {{tiem}}</p>
+            </li>
+            <!--<li class="nav-item">
+                <a class="nav-link" aria-current="page" routerLink="/registroRa"><span class="material-icons">
+                  receipt_long
+                  </span>Crear Reserva</a>
+            </li>-->
+            <li class="nav-item">
+                <button class="nav-link" aria-current="page" class="bg-danger" onclick="sessionStorage.clear(); window.location.reload();">SALIR CUENTA</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+  </nav>
+  <a routerLink="/inicio">ATRAS</a>
+<body>
+    <div class="container w-75 bg-primary mt-auto rounded shadow">
+        <div class="row align-items-stretch">
+            <div class="col bg-white p-5 rounded-end">
+                <div class="text-end">
+                    <img src="" alt="">
+                </div>
+                <h2 class="fw-bold text-center pg-5">
+                    Nueva Actividad
+                </h2>
+                <mat-tab-group>
+                    <mat-tab label="Crear una actividad">
+                        <form>
+                            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="mb-4">
+                                <label for="" class="form-label">Nombre de la Actividad/Habilidad: </label>
+                                <input type="text" class="form-control" [(ngModel)]="nNew_acti.Habilidad" (ngModelChange)="get_new_ac($event)" [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="mb-4">
+                                <label for="" class="form-label">Actividad/Habilidad: </label>
+                                <div *ngFor="let o of options">
+                                    <label for="{{o}}">
+                                      <input [disabled]="nNew_acti.Habilidad.length == 0" id="{{o}}" [value]='o' type="radio" name="actividad_habilidad" [(ngModel)]="option" (ngModelChange)="options_new($event)" [ngModelOptions]="{standalone: true}">
+                                      {{o}}
+                                    </label>
+                              </div>
+                            </div>
+                            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="mb-4" *ngIf="option == 'Actividad' && nNew_acti.Habilidad.length > 0">
+                                <label for="" class="form-label">Indicadores: </label>
+                                <input type="text" class="form-control" [(ngModel)]="nNew_acti.indicadores" (ngModelChange)="get_new_in($event)" [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="mb-4" *ngIf="option == 'Habilidad' && nNew_acti.Habilidad.length > 0">
+                                <label for="" class="form-label">Areas: </label>
+                                <mat-select required id="idArea" name="idArea" class="form-control" (selectionChange)="onAreaChange($event)">
+                                    <mat-option *ngFor="let rFila of lArea" [value]="rFila._id"> {{rFila.titulo}} </mat-option>
+                                </mat-select>
+                            </div>
+                            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="mb-4" *ngIf="lBloq1.length > 0 && nNew_acti.Habilidad.length > 0">
+                                <label for="" class="form-label">Bloques: </label>
+                                <mat-select required id="idBloq" name="idBloq" class="form-control" (selectionChange)="onBloqChange($event)">
+                                    <mat-option *ngFor="let rFila of lBloq1" [value]="rFila._id"> {{rFila.titulo}} </mat-option>
+                                </mat-select>
+                            </div>
+                            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="mb-4" *ngIf="lComp1.length > 0 && nNew_acti.Habilidad.length > 0">
+                                <label for="" class="form-label">Competencias: </label>
+                                <mat-select required id="idComp" name="idComp" class="form-control" (selectionChange)="onCompChange($event)">
+                                    <mat-option *ngFor="let rFila of lComp1" [value]="rFila._id"> {{rFila.titulo}} </mat-option>
+                                </mat-select>
+                            </div>
+                            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="d-grid">
+                                <button class="btn btn-outline-success my-2 my-sm-0" (click)="reg_new_ah()"  [disabled]="nNew_acti.Habilidad.length == 0 || nNew_acti.indicadores?.length == 0 || nNew_acti.Area?.length == 0 || nNew_acti.Bloque?.length == 0 || nNew_acti.Competencia?.length == 0">Crear</button>
+                            </div>
+                        </form>
+                    </mat-tab>
+                    <mat-tab label="Subir archivo csv">
+                        <input class="form-control" type="file" name="" id="subir" (change)="selectFile($event)" #fileInput accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                        <!--(change)="selectFile($event.target.files)"-->
+                        <table class="table table-bordered table-dark mt-5">
+                            <thead>
+                              <tr>
+                                <th *ngFor="let item of lines[0]; let i = index">{{item}}</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let item of linesR[0] | paginate: {id: 'list_csv', itemsPerPage: 1, currentPage: page_csv}; let i = index">
+                                <td *ngFor="let itemm of lines[0]; let j = index">{{item[j]}}</td>
+                                
+                              </tr>
+                            </tbody>
+                          </table>
+                          <pagination-controls id="list_csv" (pageChange)="page_csv = $event"></pagination-controls>
+                          <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="d-grid">
+                            <button class="btn btn-outline-success my-2 my-sm-0" (click)="reg_news_ah()"  [disabled]="!conf">Crear</button>
+                        </div>
+                        </mat-tab>
+                </mat-tab-group>
+                
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

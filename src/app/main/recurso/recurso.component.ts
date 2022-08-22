@@ -10,56 +10,98 @@ import { ServiciosService } from 'src/app/services/servicios.service';
 })
 export class RecursoComponent implements OnInit {
   sToken: string = "";
-  sUsua: string;
+  sUsua!: string;
+  fechNaci:any;
+  fA: Date = new Date();
+  fN!: Date;
   recu: any = []
   iFrameUrl!: SafeResourceUrl;
-  domSaniUrlsCuen: any[] = []
-  domSaniUrlsJueg: any[] = []
-  domSaniUrlsLibr: any[] = []
-  domSaniUrlsVide: any[] = []
+  domSaniUrlsCuen: any = []
+  domSaniUrlsJueg: any = []
+  domSaniUrlsLibr: any = []
+  domSaniUrlsVide: any = []
   band = false;
+  tiem!: number;
+  rol: string = sessionStorage.getItem('dRol');
+  a: any;
+
 
   constructor(private ser:ServiciosService ,private route:ActivatedRoute, private pRuta:Router, private sanitizer: DomSanitizer) { 
-    this.sToken = sessionStorage.getItem('token') || "";
-    this.sUsua = sessionStorage.getItem('username') || '';
-    if (this.sToken.length === 0) { pRuta.navigateByUrl('/login'); }
+    
    }
 
   ngOnInit(): void {
+    this.sToken = sessionStorage.getItem('token') || "";
+    this.sUsua = sessionStorage.getItem('username') || '';
+    if (this.sToken.length === 0) { this.pRuta.navigateByUrl('/login'); }
+
+    this.fechNaci = sessionStorage.getItem('dFechaNac') || '';
+    this.fN = new Date(this.fechNaci.split('T')[0].split('-')[0], this.fechNaci.split('T')[0].split('-')[1]-1, this.fechNaci.split('T')[0].split('-')[2])
+    this.tiem = this.fA.getFullYear() - this.fN.getFullYear()
+    if(this.fA.getMonth() < this.fN.getMonth()){
+      if(this.fA.getDay() < this.fN.getDay()){
+        this.tiem = this.tiem - 1
+      }
+    }
+
     const id = this.route.snapshot.paramMap.get('id');
     if(id){
       this.obtenerIdRecurso(id)
+      this.ser.get_one_acti(id).subscribe(a => {
+        console.log(a)
+        if(a != null){
+          this.a = a;
+          console.log(this.a)
+        }else{
+          this.ser.get_one_habi(id).subscribe(h => {
+            console.log(h)
+            this.a = h;
+            console.log(this.a)
+          })
+        }
+
+        
+      })
+      
     }
+    
   }
 
+  goto(i: string){
+    /*console.log('/recurso/'+i)
+    this.pRuta.navigateByUrl('/recurso/'+i);
+    window.location.reload();*/
+
+  }
   obtenerIdRecurso(id: string){
     this.ser.get_one_resource(id).subscribe(rec => {
       this.recu = rec;
-      if (this.recu[0].length == 0 && this.recu[1].length == 0 && this.recu[2].length == 0 && this.recu[3].length == 0 && this.recu[4].length == 0 && this.recu[5].length == 0) {
+      console.log(this.recu)
+      if (this.recu[0][0].length == 0 && this.recu[0][1].length == 0 && this.recu[0][2].length == 0 && this.recu[0][3].length == 0 && this.recu[0][4].length == 0 && this.recu[0][5].length == 0) {
         alert("No se encontro ningun recurso");
         this.pRuta.navigateByUrl('/inicio');
       }
-      if(this.recu[1].length > 0){
-        for(let i = 0; i < this.recu[1].length; i++){
-          this.domSaniUrlsCuen.push(this.sanitizer.bypassSecurityTrustResourceUrl(this.recu[1][i].url));
+      if(this.recu[0][1].length > 0){
+        for(let i = 0; i < this.recu[0][1].length; i++){
+          this.domSaniUrlsCuen.push(this.sanitizer.bypassSecurityTrustResourceUrl(this.recu[0][1][i].url));
         }
       }
-      if(this.recu[2].length > 0){
-        for(let i = 0; i < this.recu[2].length; i++){
-          this.domSaniUrlsJueg.push(this.sanitizer.bypassSecurityTrustResourceUrl(this.recu[2][i].url));
+      if(this.recu[0][2].length > 0){
+        for(let i = 0; i < this.recu[0][2].length; i++){
+          this.domSaniUrlsJueg.push(this.sanitizer.bypassSecurityTrustResourceUrl(this.recu[0][2][i].url));
         }
       }
-      if(this.recu[3].length > 0){
-        for(let i = 0; i < this.recu[3].length; i++){
-          this.domSaniUrlsLibr.push(this.sanitizer.bypassSecurityTrustResourceUrl(this.recu[3][i].url));
+      if(this.recu[0][3].length > 0){
+        for(let i = 0; i < this.recu[0][3].length; i++){
+          this.domSaniUrlsLibr.push(this.sanitizer.bypassSecurityTrustResourceUrl(this.recu[0][3][i].url));
         }
       }
-      if(this.recu[5].length > 0){
-        for(let i = 0; i < this.recu[5].length; i++){
-          if(this.recu[5][i].texto != undefined){
+      if(this.recu[0][5].length > 0){
+        for(let i = 0; i < this.recu[0][5].length; i++){
+          if(this.recu[0][5][i].texto != undefined){
             this.band = true;
           }
-          this.domSaniUrlsVide.push(this.sanitizer.bypassSecurityTrustResourceUrl(this.recu[5][i].url.replace('watch?v=', 'embed/')));
+          this.domSaniUrlsVide.push(this.sanitizer.bypassSecurityTrustResourceUrl(this.recu[0][5][i].url.replace('watch?v=', 'embed/')));
         }
       }
     })

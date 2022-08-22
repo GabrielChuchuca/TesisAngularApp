@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { InicioComponent } from './main/inicio/inicio.component';
 import { LoginComponent } from './main/login/login.component';
+import { NuevaactividadComponent } from './main/nuevaactividad/nuevaactividad.component';
 import { RecursoComponent } from './main/recurso/recurso.component';
 import { RegistroComponent } from './main/registro/registro.component';
 
@@ -18,6 +19,10 @@ const routes: Routes = [
   {
     path: 'inicio',
     component: InicioComponent
+  },
+  {
+    path: 'nuevaactividad',
+    component: NuevaactividadComponent
   },
   {
     path: 'recurso/:id',

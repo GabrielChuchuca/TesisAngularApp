@@ -1,44 +1,51 @@
-<!--<h1>LOGIN</h1>
-<form >
-  <div>
-    <label for="">USUARIO</label>
-    <input type="text" name="" id="">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!--<div class="container w75 bg-primary my-5 rounded shadow">-->
+  <div class="container w-75 bg-primary mt-auto rounded shadow">
+    <div class="row align-items-stretch">
+      <div class="col bg-white p-5 rounded-end">
+        <div class="text-end">
+          <img src="" alt="">
+        </div>
+        <h2 class="fw-bold text-center pg-5">
+          Bienvenido
+        </h2>
+        <form [formGroup]="frmLogIn" (ngSubmit)="onSubmit()">
+
+          <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="mb-4">
+            <label for="username" class="form-label">Username: </label>
+            <input class="form-control" type="text" matInput placeholder="USUARIO [nick]" [formControl]="$any(frmLogIn).controls['username']">
+          </div>
+          <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="mb-4">
+            <label for="username" class="form-label">Password: </label>
+            <input class="form-control" matInput type="password" placeholder="CLAVE [pwd]" [formControl]="$any(frmLogIn).controls['password']">
+          </div>
+          <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="d-grid">
+              <button mat-raised-button color="primary" class="btn btn-primary" type="submit" [disabled]="!frmLogIn.valid">Conectarse...</button>
+          </div>
+          <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="my-3">
+              <span>Tiene una cuenta? <a [routerLink]="['/registro']" class="text-info link">Registrarse</a></span>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
-  <div>
-    <label for="">password</label>
-    <input type="password" name="" id="">
-  </div>
-  <a href=#>ingresar</a><br><br>
-  <a routerLink="/registro">Crear cuenta</a>
-</form>-->
-<form [formGroup]="frmLogIn" (ngSubmit)="onSubmit()">
-  <div fxLayout="row wrap">
-      <!-- col full-->
-      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-          <input type="text" matInput placeholder="USUARIO [nick]" [formControl]="$any(frmLogIn).controls['username']">
-          <!--<small *ngIf="frmLogIn.controls['username'].hasError('required') && frmLogIn.controls['email'].touched" class="text-danger support-text">Nick REQUERIDO...</small>
-          <small *ngIf="frmLogIn.controls[''].hasError('email')" class="text-danger support-text">e-Mail INCORRECTO...</small>-->
-      </div>
-      <!-- col full-->
-      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-          <input matInput type="password" placeholder="CLAVE [pwd]" [formControl]="$any(frmLogIn).controls['password']">
-          <!--<small *ngIf="frmLogIn.controls['password'].hasError('required') && frmLogIn.controls['password'].touched" class="text-danger support-text">Clave REQUERIDA...</small>-->
-      </div>
-      <!-- col half-->
-      
-      <!-- col half-->
-      <!-- div fxFlex.gt-sm="50" fxFlex.gt-xs="50" class="text-right">
-          <a [routerLink]="['/authentication/forgot']" class="link">Olvido PWD?</a>
-      </div -->
-      <!-- col full-->
-      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-          <button mat-raised-button color="primary" class="btn-block btn-lg m-t-20 m-b-20" type="submit" [disabled]="!frmLogIn.valid">Conectarse...</button>
-      </div>
-      <!-- col full-->
-      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="text-center">
-          <span>Tiene una cuenta?
-              <a [routerLink]="['/registro']" class="text-info link">Registrarse</a>
-      </span>
-      </div>
-  </div>
-</form>
+</body>
+<footer>
+  <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+      © 2022 Copyright:
+      <a class="text-reset fw-bold" href="https://www.facebook.com/gavriellrj">Gabriel Chuchuca</a>&nbsp;
+      <a class="text-reset fw-bold" href="https://www.facebook.com/malki.yupanky">Malki Yupanki</a>
+
+    </div>
+</footer>
+</html>
+
+  

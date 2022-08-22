@@ -23,6 +23,8 @@
     "@popperjs/core": "^2.11.5",
     "bootstrap": "^5.2.0",
     "jquery": "^3.6.0",
+    "ng2-search-filter": "^0.5.1",
+    "ngx-pagination": "^6.0.2",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

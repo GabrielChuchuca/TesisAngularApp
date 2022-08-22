@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ServiciosService } from 'src/app/services/servicios.service';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+
 
 
 @Component({
@@ -12,36 +10,58 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
   styleUrls: ['./inicio.component.css']
 })
 export class InicioComponent implements OnInit {
-  sToken: string = "";
-  sUsua: string;
+  sToken: string = sessionStorage.getItem('token') || "";
+  sUsua: string = sessionStorage.getItem('username') || '';
   fechNaci:any;
+  rol: string = sessionStorage.getItem('dRol');
   fA: Date = new Date();
   fN!: Date;
-  resu: any = []
-  habi: any = []
+  resu: any = [];
+  habi: any = [];
   recu: any = []
   indi: any = []
   tiem!: number;
+  page_acti: number = 1;
+  page_habi: number = 1;
+  capa_espe: boolean = sessionStorage.getItem('dCapacidadEsp') == 'true' ? true : false;
+  actividad: any;
+  habilidad: any;
 
-  constructor(private ser:ServiciosService, pRuta: Router) { 
-    this.sToken = sessionStorage.getItem('token') || "";
-    this.sUsua = sessionStorage.getItem('username') || '';
-    if (this.sToken.length === 0) { pRuta.navigateByUrl('/login'); }
-    else{
-      ser.get_actividades_libro().subscribe(res => {
-        this.resu = res;
-      }) 
-      ser.get_habilidades().subscribe(h => {
-        this.habi = h;
-      })
-      ser.get_indicadores().subscribe(i => {
-        this.indi = i;
-        console.log(this.indi)
-      })
-    }
+  constructor(private ser:ServiciosService, private pRuta: Router) { 
+    
   }
 
   ngOnInit(): void {
+    //this.sToken = sessionStorage.getItem('token') || "";
+    //this.sUsua = sessionStorage.getItem('username') || '';
+    //this.capa_espe = sessionStorage.getItem('dCapacidadEsp') == 'true' ? true : false;
+    if (this.sToken.length === 0) { this.pRuta.navigateByUrl('/login'); }
+    else{
+      if(this.capa_espe == true){
+
+      }else{
+        this.ser.get_actividades_libro().subscribe(res => {
+          console.time("actividades");
+          this.resu = res;
+          //this.totalActividades = this.resu.length;
+          console.timeEnd('actividades');
+        }) 
+        this.ser.get_habilidades().subscribe(h => {
+          console.time("habilidades");
+          this.habi = h;
+          //console.log(this.habi)
+          //this.totalHabilidades = this.habi.length;
+          console.timeEnd('habilidades');
+        })
+        /*this.ser.get_indicadores().subscribe(i => {
+          this.indi = i;
+          //console.log(this.indi)
+        })*/
+      }
+      
+    }
+
+
     this.fechNaci = sessionStorage.getItem('dFechaNac') || '';
     this.fN = new Date(this.fechNaci.split('T')[0].split('-')[0], this.fechNaci.split('T')[0].split('-')[1]-1, this.fechNaci.split('T')[0].split('-')[2])
     this.tiem = this.fA.getFullYear() - this.fN.getFullYear()
@@ -50,6 +70,23 @@ export class InicioComponent implements OnInit {
         this.tiem = this.tiem - 1
       }
     }
-    console.log(this.tiem);
+  }
+  SearchA(){
+    if(this.actividad == ""){
+      this.ngOnInit()
+    }else{
+      this.resu = this.resu.filter(res => {
+        return res.actividades?.toLocaleLowerCase().match(this.actividad.toLocaleLowerCase());
+      })
+    }
+  }
+  SearchH(){
+    if(this.habilidad == ""){
+      this.ngOnInit()
+    }else{
+      this.habi = this.habi.filter(hab => {
+        return hab.Habilidad?.toLocaleLowerCase().match(this.habilidad.toLocaleLowerCase());
+      })
+    }
   }
 } 

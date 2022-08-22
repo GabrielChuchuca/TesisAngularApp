@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -13,6 +13,10 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { RecursoComponent } from './main/recurso/recurso.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { NuevaactividadComponent } from './main/nuevaactividad/nuevaactividad.component';
 
 
 @NgModule({
@@ -22,6 +26,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     RegistroComponent,
     InicioComponent,
     RecursoComponent,
+    NuevaactividadComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,9 +37,14 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     BrowserAnimationsModule,
     MatTabsModule,
     MatRadioModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    NgxPaginationModule,
+    MatSelectModule,
+    Ng2SearchPipeModule,
+    NgxPaginationModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class AppModule { }

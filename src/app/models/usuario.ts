@@ -5,6 +5,11 @@ export class Usuario {
   apellido: string = "";
   unidadEducativa: string = "";
   fechaNacimiento: string = "";
+  correo!: string;
   username!: string;
   password!: string;
+  rol!: string;
+  capacidad_especial!: boolean;
+  diagnostico_medico!: any;
+  diagnostico_lenguaje!: any;
 }
