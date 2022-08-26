@@ -4,11 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ServiciosService } from 'src/app/services/servicios.service';
 
 @Component({
-  selector: 'app-recurso',
-  templateUrl: './recurso.component.html',
-  styleUrls: ['./recurso.component.css']
+  selector: 'app-recurso2',
+  templateUrl: './recurso2.component.html',
+  styleUrls: ['./recurso2.component.css']
 })
-export class RecursoComponent implements OnInit {
+export class Recurso2Component implements OnInit {
   sToken: string = "";
   sUsua!: string;
   fechNaci:any;
@@ -24,14 +24,12 @@ export class RecursoComponent implements OnInit {
   tiem!: number;
   rol: string = sessionStorage.getItem('dRol');
   a: any;
-
-  constructor(private ser:ServiciosService ,private route:ActivatedRoute, private pRuta:Router, private sanitizer: DomSanitizer) { }
+  constructor(private ser: ServiciosService, private route: ActivatedRoute, private pRuta: Router, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.sToken = sessionStorage.getItem('token') || "";
     this.sUsua = sessionStorage.getItem('username') || '';
     if (this.sToken.length === 0) { this.pRuta.navigateByUrl('/login'); }
-
     this.fechNaci = sessionStorage.getItem('dFechaNac') || '';
     this.fN = new Date(this.fechNaci.split('T')[0].split('-')[0], this.fechNaci.split('T')[0].split('-')[1]-1, this.fechNaci.split('T')[0].split('-')[2])
     this.tiem = this.fA.getFullYear() - this.fN.getFullYear()
@@ -40,7 +38,6 @@ export class RecursoComponent implements OnInit {
         this.tiem = this.tiem - 1
       }
     }
-
     const id = this.route.snapshot.paramMap.get('id');
     if(id){
       this.obtenerIdRecurso(id)
@@ -58,13 +55,6 @@ export class RecursoComponent implements OnInit {
         }  
       })
     }
-  }
-
-  goto(i: string){
-    /*console.log('/recurso/'+i)
-    this.pRuta.navigateByUrl('/recurso/'+i);
-    window.location.reload();*/
-
   }
   obtenerIdRecurso(id: string){
     this.ser.get_one_resource(id).subscribe(rec => {
@@ -99,4 +89,5 @@ export class RecursoComponent implements OnInit {
       }
     })
   }
+
 }

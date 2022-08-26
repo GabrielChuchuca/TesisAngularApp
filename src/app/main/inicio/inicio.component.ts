@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ServiciosService } from 'src/app/services/servicios.service';
 
-
-
 @Component({
   selector: 'app-inicio',
   templateUrl: './inicio.component.html',
@@ -14,6 +12,7 @@ export class InicioComponent implements OnInit {
   sUsua: string = sessionStorage.getItem('username') || '';
   fechNaci:any;
   rol: string = sessionStorage.getItem('dRol');
+  diagnosticoMed: any;
   fA: Date = new Date();
   fN!: Date;
   resu: any = [];
@@ -38,7 +37,11 @@ export class InicioComponent implements OnInit {
     if (this.sToken.length === 0) { this.pRuta.navigateByUrl('/login'); }
     else{
       if(this.capa_espe == true){
-
+        this.diagnosticoMed = sessionStorage.getItem('dDiagnosticoMed').split(",");
+        console.log(this.diagnosticoMed)
+        this.ser.get_one_act_dis(this.diagnosticoMed).subscribe(acdi => {
+          console.log(acdi)
+        })
       }else{
         this.ser.get_actividades_libro().subscribe(res => {
           console.time("actividades");

@@ -8,35 +8,43 @@
 </head>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" routerLink="/index"><span class="material-icons">
-          home
-          </span>INICIO</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <p class="nav-link" aria-current="page" ><span class="material-icons">
-                account_circle
-                </span>Usuario: {{sUsua}}</p>
-            </li>
-            <li class="nav-item">
-                <p class="nav-link" aria-current="page">Edad Usuario: {{tiem}}</p>
-            </li>
-            <!--<li class="nav-item">
-                <a class="nav-link" aria-current="page" routerLink="/registroRa"><span class="material-icons">
-                  receipt_long
-                  </span>Crear Reserva</a>
-            </li>-->
-            <li class="nav-item">
-                <button class="nav-link" aria-current="page" class="bg-danger" onclick="sessionStorage.clear(); window.location.reload();">SALIR CUENTA</button>
-            </li>
-          </ul>
+      <a class="navbar-brand" routerLink=""><span class="material-icons">
+        home
+        </span>INICIO
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item" *ngIf="rol != 'usuario'">
+            <a class="nav-link" aria-current="page" routerLink="/nuevaactividad"><span class="material-icons">
+              description
+              </span> Crear Actividad</a> 
+          </li>
+          <li class="nav-item" *ngIf="rol != 'usuario'">
+            <a class="nav-link" aria-current="page" routerLink="/registro"><span class="material-icons">
+              groups
+              </span> Crear Usuario</a>
+          </li>
+          
+          <!--<li class="nav-item">
+              <a class="nav-link" aria-current="page" routerLink="/registroRa"><span class="material-icons">
+                receipt_long
+                </span>Crear Reserva</a>
+          </li>-->
+          
+        </ul>
+        <p style="margin-left: auto;"><span class="material-icons">
+          account_circle
+          </span>Usuario: {{sUsua}} - Edad Usuario: {{tiem}}</p>
+        <button style="margin-right: 10px; margin-left: auto;" class="bg-danger" onclick="sessionStorage.clear(); window.location.reload();"><span class="material-icons">
+          logout
+          </span></button>
         </div>
       </div>
   </nav>
-<a routerLink="/inicio">ATRAS</a> <br> Actividad/Habilidad: <h1 *ngIf="a?.actividades != undefined; else hab"> {{a.actividades}} </h1><ng-template #hab> <h1> {{a?.Habilidad}} </h1> </ng-template>
+  
 <!--<iframe src="https://play.google.com/store/apps/details?id=com.learninga_z.onyourown&hl=es&gl=ec" style="border:0px #ffffff none;" name="myiFrame" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="400px" width="600px" allowfullscreen></iframe>
 <iframe src="https://cuentosparadormir.com/infantiles/cuento/el-lugar-donde-llueve-chocolate" style="border:0px #ffffff none;" name="myiFrame" scrolling="yes" frameborder="1" marginheight="0px" marginwidth="0px" height="400px" width="600px" allowfullscreen></iframe>
 <iframe src="https://www.cokitos.com/las-horas-con-pacman/play/" style="border:0px #ffffff none;" name="myiFrame" scrolling="yes" frameborder="1" marginheight="0px" marginwidth="0px" height="400px" width="600px" allowfullscreen></iframe>
@@ -44,246 +52,262 @@
 <!--<iframe width="250" height="250" frameBorder="0" src="https://play.google.com/store/apps/details?id=com.learninga_z.onyourown&hl=es&gl=ec"></iframe>-->
 
 <body>
-  <article>
-    <mat-tab-group class="tab">
-      <mat-tab label="Recurso Apps" *ngIf="recu[0][0].length > 0">
-          <!--<div style="overflow-x:auto;" *ngIf="recu[0].length > 0;else first">-->
-          <div style="overflow-x:auto;">
+  <div class="w-auto">
+    <a routerLink="/inicio"><button class="btn btn-warning"><span class="material-icons">
+      arrow_back
+      </span></button></a><br><h1 *ngIf="a?.actividades != undefined; else hab"> {{a.actividades}} </h1><ng-template #hab> <h1> {{a?.Habilidad}} </h1> </ng-template>
+    <article>
+      <mat-tab-group class="tab">
+        <mat-tab label="Recurso Apps" *ngIf="recu[0][0].length > 0">
+            <!--<div style="overflow-x:auto;" *ngIf="recu[0].length > 0;else first">-->
+            <div style="overflow-x:auto;">
+                <table class="table bg-white">
+                    <thead class="text-light">
+                        <tr>
+                        
+                        <th scope="col" class="text-center">Descripcion</th>
+                        <th scope="col" class="text-center">Url</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let i of recu[0][0];let indice=index">
+                        <tr>
+           
+                        <td data-label="Descripcion"> <strong><u>TITULO:</u></strong> <h1>{{i.titulo}}</h1> <strong><u>DESCRIPCION DE LA APP:</u></strong> <br> <h2>{{i.descripcion}}</h2> </td>
+                        <td data-label="Url"> <a href={{i.url}} target="_blank" rel="noopener noreferrer" ><span class="material-icons" style="font-size:500%">
+                            exit_to_app
+                            </span></a> </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--<ng-template #first>
+                <div style="overflow-x:auto;">
+                    <table class="table table-dark">
+                        <thead>
+                          <tr>
+                            <th scope="col">Titulo</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td> NO DISPONE DE NINGUN RECURSO </td>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </ng-template>-->
+        </mat-tab>
+        <mat-tab label="Recurso Cuentos" *ngIf="recu[0][1].length > 0">
+            <!--<div style="overflow-x:auto;" *ngIf="recu[1].length > 0;else second">-->
+            <div style="overflow-x:auto;">
               <table class="table bg-white">
-                  <thead class="text-light">
-                      <tr>
-                      
-                      <th scope="col" class="text-center">Descripcion</th>
-                      <th scope="col" class="text-center">Url</th>
-                      </tr>
-                  </thead>
-                  <tbody *ngFor="let i of recu[0][0];let indice=index">
-                      <tr>
-         
-                      <td data-label="Descripcion"> <strong><u>TITULO:</u></strong> <h1>{{i.titulo}}</h1> <strong><u>DESCRIPCION DE LA APP:</u></strong> <br> <h2>{{i.descripcion}}</h2> </td>
-                      <td data-label="Url"> <a href={{i.url}} target="_blank" rel="noopener noreferrer" ><span class="material-icons" style="font-size:500%">
-                          exit_to_app
-                          </span></a> </td>
-                      </tr>
-                  </tbody>
-              </table>
-          </div>
-          <!--<ng-template #first>
-              <div style="overflow-x:auto;">
-                  <table class="table table-dark">
-                      <thead>
-                        <tr>
-                          <th scope="col">Titulo</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td> NO DISPONE DE NINGUN RECURSO </td>
-                        </tr>
-                      </tbody>
-                  </table>
-              </div>
-          </ng-template>-->
-      </mat-tab>
-      <mat-tab label="Recurso Cuentos" *ngIf="recu[0][1].length > 0">
-          <!--<div style="overflow-x:auto;" *ngIf="recu[1].length > 0;else second">-->
-          <div style="overflow-x:auto;">
-            <table class="table bg-white">
-              <thead class="text-light">
+                <thead class="text-light">
+                    <tr>
+                    <th scope="col" class="text-center">Descripcion</th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let j of recu[0][1];let indice=index">
                   <tr>
-                  <th scope="col" class="text-center">Descripcion</th>
+                    <td data-label="Descripcion">
+                      <strong><u>TITULO:</u></strong> <h1>{{j.titulo}}</h1>
+                      <strong><u>CONTENIDO DEL CUENTO:</u></strong> <h2>{{j.cuento}}</h2>
+                      <strong><u>VISTA PREVIA:</u></strong> <div class="iframe-container"><iframe [src]="domSaniUrlsCuen[indice]" scrolling="yes" frameborder="1" allowfullscreen></iframe></div>
+                      <strong><u>URL:</u></strong> <br> <a href="{{j.url}}" target="_blank" rel="noopener noreferrer">{{j.url}}</a><br>
+                    </td>
                   </tr>
-              </thead>
-              <tbody *ngFor="let j of recu[0][1];let indice=index">
-                  <tr>
-
-                  <td data-label="Descripcion"> <strong><u>TITULO:</u></strong> <h1>{{j.titulo}}</h1> <strong><u>URL:</u></strong> <br> <a href="{{j.url}}" target="_blank" rel="noopener noreferrer">{{j.url}}</a> <br> <strong><u>VISTA PREVIA:</u></strong> <div class="iframe-container"><iframe [src]="domSaniUrlsCuen[indice]" scrolling="yes" frameborder="1" allowfullscreen></iframe></div> <strong><u>CONTENIDO DEL CUENTO:</u></strong> <h2>{{j.cuento}}</h2></td>
-
-                  </tr>
-              </tbody>
-            </table>
-          </div>
-
-          
-          <!--<ng-template #second>
-              <div style="overflow-x:auto;">
-                  <table class="table table-dark">
-                      <thead>
-                        <tr>
-                          <th scope="col">Titulo</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td> NO DISPONE DE NINGUN RECURSO </td>
-                        </tr>
-                      </tbody>
-                  </table>
-              </div>
-          </ng-template>-->
-      </mat-tab>
-      <mat-tab label="Recurso Juegos" *ngIf="recu[0][2].length > 0">
-          <!--<div style="overflow-x:auto;" *ngIf="recu[2].length > 0;else third">-->
-          <div style="overflow-x:auto;">
-              <table class="table bg-white">
-                  <thead class="text-light">
-                      <tr>
-              
-                      <th scope="col" class="text-center">Descripcion</th>
-                      </tr>
-                  </thead>
-                  <tbody *ngFor="let k of recu[0][2];let indice=index">
-                      <tr>
-                      <td data-label="Descripcion"><strong><u>TITULO:</u></strong> <h1>{{k.titulo}}</h1><strong><u>URL:</u></strong> <br><a href="{{k.url}}" target="_blank" rel="noopener noreferrer">{{k.url}}</a> <br> <strong><u>VISTA PREVIA:</u></strong><div class="iframe-container"> <iframe [src]="domSaniUrlsJueg[indice]" scrolling="yes" allowfullscreen></iframe></div> <strong><u>DESCRIPCION DEL JUEGO:</u></strong> <h2>{{k.descripcion}}</h2> </td>
-                      </tr>
-                  </tbody>
+                </tbody>
               </table>
-          </div>
-          <!--<ng-template #third>
-              <div style="overflow-x:auto;">
-                  <table class="table table-dark">
-                      <thead>
+            </div>
+  
+            
+            <!--<ng-template #second>
+                <div style="overflow-x:auto;">
+                    <table class="table table-dark">
+                        <thead>
+                          <tr>
+                            <th scope="col">Titulo</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td> NO DISPONE DE NINGUN RECURSO </td>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </ng-template>-->
+        </mat-tab>
+        <mat-tab label="Recurso Juegos" *ngIf="recu[0][2].length > 0">
+            <!--<div style="overflow-x:auto;" *ngIf="recu[2].length > 0;else third">-->
+            <div style="overflow-x:auto;">
+                <table class="table bg-white">
+                    <thead class="text-light">
                         <tr>
-                          <th scope="col">Titulo</th>
+                
+                        <th scope="col" class="text-center">Descripcion</th>
                         </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td> NO DISPONE DE NINGUN RECURSO </td>
-                        </tr>
-                      </tbody>
-                  </table>
-              </div>
-          </ng-template>-->
-      </mat-tab>
-      <mat-tab label="Recurso Libros" *ngIf="recu[0][3].length > 0">
-          <div style="overflow-x:auto;">
-              <!--<table class="table table-dark" *ngIf="recu[3].length > 0;else four">-->
-              <table class="table bg-white">
-                  <thead class="text-light">
+                    </thead>
+                    <tbody *ngFor="let k of recu[0][2];let indice=index">
                       <tr>
-                      <th scope="col" class="text-center">Descripcion</th>
-                      
+                        <td data-label="Descripcion">
+                          <strong><u>TITULO:</u></strong> <h1>{{k.titulo}}</h1>
+                          <strong><u>DESCRIPCION DEL JUEGO:</u></strong><h2>{{k.descripcion}}</h2> 
+                          <strong><u>VISTA PREVIA:</u></strong><div class="iframe-container"> <iframe [src]="domSaniUrlsJueg[indice]" scrolling="yes" allowfullscreen></iframe></div>
+                          <strong><u>URL:</u></strong> <br><a href="{{k.url}}" target="_blank" rel="noopener noreferrer">{{k.url}}</a><br>
+                        </td>
                       </tr>
-                  </thead>
-                  <tbody *ngFor="let l of recu[0][3];let indice=index">
+                    </tbody>
+                </table>
+            </div>
+            <!--<ng-template #third>
+                <div style="overflow-x:auto;">
+                    <table class="table table-dark">
+                        <thead>
+                          <tr>
+                            <th scope="col">Titulo</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td> NO DISPONE DE NINGUN RECURSO </td>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </ng-template>-->
+        </mat-tab>
+        <mat-tab label="Recurso Libros" *ngIf="recu[0][3].length > 0">
+            <div style="overflow-x:auto;">
+                <!--<table class="table table-dark" *ngIf="recu[3].length > 0;else four">-->
+                <table class="table bg-white">
+                    <thead class="text-light">
                       <tr>
-                      <td data-label="Descripcion"> <strong><ul>TITULO:</ul></strong> <h1>{{l.titulo}}</h1> <strong><u>URL:</u></strong><br><a href="{{l.url}}" target="_blank" rel="noopener noreferrer">{{l.url}}</a> <br> <strong><u>VISTA PREVIA:</u></strong> <div class="iframe-container"> <iframe [src]="domSaniUrlsLibr[indice]" scrolling="yes" allowfullscreen></iframe></div> </td>
-
+                        <th scope="col" class="text-center">Descripcion</th>
                       </tr>
-                  </tbody>
-              </table>
-          </div>
-          <!--<ng-template #four>
-              <div style="overflow-x:auto;">
-                  <table class="table table-dark">
-                      <thead>
-                        <tr>
-                          <th scope="col">Titulo</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td> NO DISPONE DE NINGUN RECURSO </td>
-                        </tr>
-                      </tbody>
-                  </table>
-              </div>
-          </ng-template>-->
-      </mat-tab>
-      <mat-tab label="Recurso Tweets" *ngIf="recu[0][4].length > 0">
-          <div style="overflow-x:auto;">
-              <!--<table class="table table-dark" *ngIf="recu[4].length > 0;else five">-->
-              <table class="table bg-white">
-                  <thead class="text-light">
+                    </thead>
+                    <tbody *ngFor="let l of recu[0][3];let indice=index">
                       <tr>
-                      <th scope="col" class="text-center">Titulo</th>
+                        <td data-label="Descripcion">
+                          <strong><ul>TITULO:</ul></strong><h1>{{l.titulo}}</h1>
+                          <strong><u>VISTA PREVIA:</u></strong> <div class="iframe-container"> <iframe [src]="domSaniUrlsLibr[indice]" scrolling="yes" allowfullscreen></iframe></div>
+                          <strong><u>URL:</u></strong><br><a href="{{l.url}}" target="_blank" rel="noopener noreferrer">{{l.url}}</a><br>
+                        </td>
                       </tr>
-                  </thead>
-                  <tbody *ngFor="let m of recu[0][4];let indice=index">
+                    </tbody>
+                </table>
+            </div>
+            <!--<ng-template #four>
+                <div style="overflow-x:auto;">
+                    <table class="table table-dark">
+                        <thead>
+                          <tr>
+                            <th scope="col">Titulo</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td> NO DISPONE DE NINGUN RECURSO </td>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </ng-template>-->
+        </mat-tab>
+        <mat-tab label="Recurso Tweets" *ngIf="recu[0][4].length > 0">
+            <div style="overflow-x:auto;">
+                <!--<table class="table table-dark" *ngIf="recu[4].length > 0;else five">-->
+                <table class="table bg-white">
+                    <thead class="text-light">
                       <tr>
-                      <td data-label="Titulo"> {{m.tweet}} </td>
+                        <th scope="col" class="text-center">Titulo</th>
                       </tr>
-                  </tbody>
-              </table>
-          </div>
-          <!--<ng-template #five>
-              <div style="overflow-x:auto;">
-                  <table class="table table-dark">
-                      <thead>
-                        <tr>
-                          <th scope="col">Titulo</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td> NO DISPONE DE NINGUN RECURSO </td>
-                        </tr>
-                      </tbody>
-                  </table>
-              </div>
-          </ng-template>-->
-      </mat-tab>
-      <mat-tab label="Recurso Videos" *ngIf="recu[0][5].length > 0">
-          <!--<div style="overflow-x:auto;" *ngIf="recu[5].length > 0;else six">-->
-          <div style="overflow-x:auto;">
-              <table class="table bg-white">
-                  <thead class="text-light">
+                    </thead>
+                    <tbody *ngFor="let m of recu[0][4];let indice=index">
                       <tr>
-                      
-                      <th scope="col" class="text-center">Descripcion</th>
-                      
+                        <td data-label="Titulo"> {{m.tweet}} </td>
                       </tr>
-                  </thead>
-                  <tbody *ngFor="let n of recu[0][5];let indice=index">
+                    </tbody>
+                </table>
+            </div>
+            <!--<ng-template #five>
+                <div style="overflow-x:auto;">
+                    <table class="table table-dark">
+                        <thead>
+                          <tr>
+                            <th scope="col">Titulo</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td> NO DISPONE DE NINGUN RECURSO </td>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </ng-template>-->
+        </mat-tab>
+        <mat-tab label="Recurso Videos" *ngIf="recu[0][5].length > 0">
+            <!--<div style="overflow-x:auto;" *ngIf="recu[5].length > 0;else six">-->
+            <div style="overflow-x:auto;">
+                <table class="table bg-white">
+                    <thead class="text-light">
                       <tr>
-
-                      <!--<td> <a href={{n.url}} target="_blank" rel="noopener noreferrer">oe</a> </td>-->
-                      <td data-label="Vista Previa"> <strong><ul>TITULO:</ul></strong><h1>{{n.titulo}}</h1><strong><ul>URL:</ul></strong><br><a href="{{n.url}}" target="_blank" rel="noopener noreferrer">{{n.url}}</a><br><strong><u>VISTA PREVIA:</u></strong><div class="iframe-container"><iframe [src]="domSaniUrlsVide[indice]" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><strong><u>Texto del Video:</u></strong><h2>{{n.texto}}</h2>  </td>
-
-                  </tr>
-                  </tbody>
-              </table>
-          </div>
-          <!--<ng-template #six>
-              <div style="overflow-x:auto;">
-                  <table class="table table-dark">
-                      <thead>
-                        <tr>
-                          <th scope="col">Titulo</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td> NO DISPONE DE NINGUN RECURSO </td>
-                        </tr>
-                      </tbody>
-                  </table>
-              </div>
-          </ng-template>-->
-      </mat-tab>
-    </mat-tab-group>
-  </article>
-  <aside *ngIf="recu[1].length > 0" style="margin-top: 60px;">
-    <table class="table bg-white">
-      <thead class="text-light">
-        <tr>
-          <th scope="col" class="text-center">Actividades Recomendadas</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let n of recu[1]">
-          <!--<td><a [routerLink]="['/recurso', n._id]"><button class="btn btn-primary btn-lg" (click)="goto(n._id)">{{n.Habilidad}}</button></a></td>-->
-          <td data-label="Actividades Recomendadas" *ngIf="n?.actividades != undefined; else hab"><a [routerLink]="['/recurso', n._id]">{{n.actividades}}</a></td>
-          <ng-template #hab>
-            <td data-label="Actividades Recomendadas"><a [routerLink]="['/recurso', n._id]" target="_blank" rel="noopener noreferrer">{{n.Habilidad}}</a></td>
-          </ng-template>
-        </tr>
-      </tbody>
-    </table>
-    
-    
-  </aside>
+                        <th scope="col" class="text-center">Descripcion</th>
+                      </tr>
+                    </thead>
+                    <tbody *ngFor="let n of recu[0][5];let indice=index">
+                      <tr>
+                        <!--<td> <a href={{n.url}} target="_blank" rel="noopener noreferrer">oe</a> </td>-->
+                        <td data-label="Vista Previa">
+                          <strong><ul>TITULO:</ul></strong><h1>{{n.titulo}}</h1>
+                          <strong><u>VISTA PREVIA:</u></strong><div class="iframe-container"><iframe [src]="domSaniUrlsVide[indice]" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><strong><u>Texto del Video:</u></strong><h2>{{n.texto}}</h2>
+                          <strong><ul>URL:</ul></strong><br><a href="{{n.url}}" target="_blank" rel="noopener noreferrer">{{n.url}}</a><br>
+                        </td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--<ng-template #six>
+                <div style="overflow-x:auto;">
+                    <table class="table table-dark">
+                        <thead>
+                          <tr>
+                            <th scope="col">Titulo</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td> NO DISPONE DE NINGUN RECURSO </td>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </ng-template>-->
+        </mat-tab>
+      </mat-tab-group>
+    </article>
+    <aside *ngIf="recu[1].length > 0" style="margin-top: 60px;">
+      <table class="table bg-white">
+        <thead class="text-light">
+          <tr>
+            <th scope="col" class="text-center">Actividades Recomendadas</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let n of recu[1]">
+            <!--<td><a [routerLink]="['/recurso', n._id]"><button class="btn btn-primary btn-lg" (click)="goto(n._id)">{{n.Habilidad}}</button></a></td>-->
+            <td data-label="Actividades Recomendadas" *ngIf="n?.actividades != undefined; else hab"><a [routerLink]="['/recurso2', n._id]">{{n.actividades}}</a></td>
+            <ng-template #hab>
+              <td data-label="Actividades Recomendadas"><a [routerLink]="['/recurso2', n._id]">{{n.Habilidad}}</a></td>
+            </ng-template>
+          </tr>
+        </tbody>
+      </table>
+      
+      
+    </aside>
+  </div>
+  
 </body>
 
 </html>

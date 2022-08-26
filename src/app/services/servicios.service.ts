@@ -8,6 +8,7 @@ import { AuthJWT } from '../models/AuthJWT';
 import { Router } from '@angular/router';
 import { Login } from '../models/Login';
 import { NuevaActividad } from '../models/nuevaactividad';
+import { environment } from '../../environments/environment';
 
 
 const httpOptionsJWT = { headers: new HttpHeaders ({'Content-type': 'application/json'}) }
@@ -24,13 +25,13 @@ export class ServiciosService {
   securityReset() { this.secAuth.jwt = ''; }
 
   nuevoUsuario(usua:Usuario):Observable<any> {
-    return this.usrHttp.post("http://127.0.0.1:8000/users", usua, httpOptionsJWT);
+    return this.usrHttp.post(environment.apiUrlNewUse, usua, httpOptionsJWT);
   }
 
   logInJWT (dataUsua: Login)
   {
     console.log(dataUsua) 
-    return this.usrHttp.post('http://127.0.0.1:8000/login', dataUsua, httpOptionsJWT).pipe
+    return this.usrHttp.post(environment.apiUrlLog, dataUsua, httpOptionsJWT).pipe
       (
         tap((vResp) =>
         {
@@ -47,6 +48,12 @@ export class ServiciosService {
           }
           if (this.tResu.resultado.capacidad_especial != undefined) {
             sessionStorage.setItem('dCapacidadEsp', this.tResu.resultado.capacidad_especial);
+          }
+          if (this.tResu.resultado.diagnostico_medico != undefined){
+            sessionStorage.setItem('dDiagnosticoMed', this.tResu.resultado.diagnostico_medico)
+          }
+          if (this.tResu.resultado.diagnostico_lenguaje != undefined){
+            sessionStorage.setItem('dDiagnosticoLen', this.tResu.resultado.diagnostico_lenguaje)
           }
           sessionStorage.setItem('dRol', this.tResu.resultado.rol);
         }),
@@ -68,36 +75,45 @@ export class ServiciosService {
   }
 
   get_actividades_libro(){
-    return this.usrHttp.get("http://127.0.0.1:8000/actividades", httpOptionsJWT);
+    return this.usrHttp.get(environment.apiUrlGetAct, httpOptionsJWT);
   }
   get_habilidades(){
-    return this.usrHttp.get("http://127.0.0.1:8000/habilidades", httpOptionsJWT);
+    return this.usrHttp.get(environment.apiUrlGetHab, httpOptionsJWT);
   }
   get_one_resource(id: string){
-    return this.usrHttp.get("http://127.0.0.1:8000/recurso/"+id, httpOptionsJWT);
+    return this.usrHttp.get(environment.apiUrlOneRes+id, httpOptionsJWT);
   }
   get_area(){
-    return this.usrHttp.get("http://127.0.0.1:8000/areas", httpOptionsJWT);
+    return this.usrHttp.get(environment.apiUrlGetAre, httpOptionsJWT);
   }
   get_bloque(){
-    return this.usrHttp.get("http://127.0.0.1:8000/bloques", httpOptionsJWT);
+    return this.usrHttp.get(environment.apiUrlGetBlo, httpOptionsJWT);
   }
   get_competencia(){
-    return this.usrHttp.get("http://127.0.0.1:8000/competencias", httpOptionsJWT);
+    return this.usrHttp.get(environment.apiUrlGetCom, httpOptionsJWT);
   }
   get_icd10(){
-    return this.usrHttp.get("http://127.0.0.1:8000/icd10", httpOptionsJWT)
+    return this.usrHttp.get(environment.apiUrlGetIcd, httpOptionsJWT)
   }
   get_indicadores(){
-    return this.usrHttp.get("http://127.0.0.1:8000/indicadores", httpOptionsJWT);
+    return this.usrHttp.get(environment.apiUrlGetInd, httpOptionsJWT);
   }
   new_acti_habi(acti_habi:NuevaActividad):Observable<any>{
-    return this.usrHttp.post("http://127.0.0.1:8000/habilidades", acti_habi, httpOptionsJWT);
+    return this.usrHttp.post(environment.apiUrlNewAct, acti_habi, httpOptionsJWT);
   }
   get_one_acti(id: string){
-    return this.usrHttp.get("http://127.0.0.1:8000/actividad/"+id, httpOptionsJWT);
+    return this.usrHttp.get(environment.apiUrlGetOneAct+id, httpOptionsJWT);
   }
   get_one_habi(id: string){
-    return this.usrHttp.get("http://127.0.0.1:8000/habilidad/"+id, httpOptionsJWT);
+    return this.usrHttp.get(environment.apiUrlGetOneHab+id, httpOptionsJWT);
   }
+  obtener_recurso(ids: any){
+    return this.usrHttp.get("http://127.0.0.1:8000/obtenerrecursos/"+ids, httpOptionsJWT);
+  }
+  get_icd10lan(){
+    return this.usrHttp.get(environment.apiUrlGetIcdLan, httpOptionsJWT)
+  }
+  get_one_act_dis(ids: any){
+    return this.usrHttp.post("http://127.0.0.1:8000/actividades_d", ids,  httpOptionsJWT)
+  }  
 }

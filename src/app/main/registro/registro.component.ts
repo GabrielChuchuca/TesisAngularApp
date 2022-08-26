@@ -20,6 +20,7 @@ export class RegistroComponent implements OnInit {
   espe: boolean = false;
   macVersion: string = "";
   l_icd10_m: any;
+  l_icd10_m2: any;
   l_icd10_l: any;
   icd10_l: any;
   icd10_m: any;
@@ -44,16 +45,8 @@ export class RegistroComponent implements OnInit {
     if (this.sToken.length > 0 && this.rol.length > 0 && this.rol === 'usuario') { this.pRu.navigate(['/inicio']); }
     else if(this.sToken.length === 0){ sessionStorage.clear(); }
 
-    this.ser.get_icd10().subscribe(icd => {
-      this.l_icd10_m = icd;
-      for (let i = 0; i < this.l_icd10_m.length; i++) {
-        this.l_icd10_m[i].selected = false;
-      }
-      this.l_icd10_l = icd;
-      for (let i = 0; i < this.l_icd10_l.length; i++) {
-        this.l_icd10_l[i].selected = false;
-      }
-    })
+    
+
     /*this.formularioN = this.builder.group({
       cedula: ['', Validators.compose([Validators.maxLength(10), Validators.required, Validators.pattern('[0-9]*')])],
       apellido: ['', Validators.compose([Validators.required, Validators.pattern("[a-zA-ZáéíóúñÑ ]*")])],
@@ -106,10 +99,26 @@ export class RegistroComponent implements OnInit {
       this.nUsuario.capacidad_especial = true
       this.nUsuario.diagnostico_medico = []
       this.nUsuario.diagnostico_lenguaje = []
+      this.ser.get_icd10().subscribe(icd => {
+        this.l_icd10_m = icd;
+        for (let i = 0; i < this.l_icd10_m.length; i++) {
+          this.l_icd10_m[i].selected = false;
+        }
+      })
+      this.ser.get_icd10lan().subscribe(icdlan => {
+        this.l_icd10_l = icdlan
+        //console.log(this.l_icd10_l)
+        for (let index = 0; index < this.l_icd10_l.length; index++) {
+          this.l_icd10_l[index].selected = false
+          
+        }
+      })
     }else if(this.nUsuario.capacidad_especial == false){
       this.nUsuario.capacidad_especial = false
       delete this.nUsuario.diagnostico_medico
       delete this.nUsuario.diagnostico_lenguaje
+      this.l_icd10_m = []
+      this.l_icd10_l = []
     }
     //console.log(this.nUsuario.capacidad_especial)  //undefined
   }
@@ -136,7 +145,30 @@ export class RegistroComponent implements OnInit {
 
   SearchIM(){
     if(this.icd10_m == ""){
-      this.ngOnInit()
+      ///this.ngOnInit()
+      this.ser.get_icd10().subscribe(icd => {
+        this.l_icd10_m = icd;
+        /*for (let index = 0; index < this.nUsuario.diagnostico_medico.length; index++) {
+          console.log(this.nUsuario.diagnostico_medico[index])
+          for (let i = 0; i < this.l_icd10_m.length; i++) {
+            this.l_icd10_m[i].selected = false;
+            if(this.nUsuario.diagnostico_medico[index] === this.l_icd10_m[i].code){
+              console.log("si")
+              this.l_icd10_m[i].selected = true;
+              console.log(this.l_icd10_m[i].selected)
+            }
+          }
+        } */
+        for (let i = 0; i < this.l_icd10_m.length; i++) {
+          this.l_icd10_m[i].selected = false;
+          for (let j = 0; j < this.nUsuario.diagnostico_medico.length; j++) {
+            if (this.l_icd10_m[i].code === this.nUsuario.diagnostico_medico[j]) {
+              this.l_icd10_m[i].selected = true
+            }
+          }
+        }
+      })
+      //console.log(this.l_icd10_m)
     }else{
       this.l_icd10_m = this.l_icd10_m.filter(resm => {
         return resm.code?.toLocaleLowerCase().match(this.icd10_m.toLocaleLowerCase()) || resm.label[0]?.toLocaleLowerCase().match(this.icd10_m.toLocaleLowerCase());
@@ -145,7 +177,26 @@ export class RegistroComponent implements OnInit {
   }
   SearchIL(){
     if(this.icd10_l == ""){
-      this.ngOnInit()
+      this.ser.get_icd10lan().subscribe(icdlan => {
+        this.l_icd10_l = icdlan
+        //console.log(this.l_icd10_l)
+        /*for (let j = 0; j< this.nUsuario.diagnostico_lenguaje.length; j++) {
+          for (let index = 0; index < this.l_icd10_l.length; index++) {
+            this.l_icd10_l[index].selected = false
+            if (this.nUsuario.diagnostico_lenguaje[j] === this.l_icd10_l[index].code) {
+              this.l_icd10_l[index].selected = true
+            }
+          }
+        }*/
+        for (let i = 0; i < this.l_icd10_l.length; i++) {
+          this.l_icd10_l[i].selected = false
+          for (let j = 0; j < this.nUsuario.diagnostico_medico.length; j++) {
+            if (this.l_icd10_l[i].code === this.nUsuario.diagnostico_medico[j]) {
+              this.l_icd10_l[i].selected = true
+            }
+          }
+        }
+      })
     }else{
       this.l_icd10_l = this.l_icd10_l.filter(resl => {
         return resl.code?.toLocaleLowerCase().match(this.icd10_l.toLocaleLowerCase()) || resl.label[0]?.toLocaleLowerCase().match(this.icd10_l.toLocaleLowerCase()); 

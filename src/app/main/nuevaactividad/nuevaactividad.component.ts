@@ -29,6 +29,9 @@ export class NuevaactividadComponent implements OnInit {
   linesR:any[] = []; // for rows
   page_csv: number = 1;
   conf: boolean = false;
+  lIndi: any;
+  nindi: boolean = false
+  ca_es: boolean = false 
   constructor(private ser:ServiciosService, private pRuta:Router) { }
 
   ngOnInit(): void {
@@ -51,7 +54,17 @@ export class NuevaactividadComponent implements OnInit {
         this.tiem = this.tiem - 1
       }
     }
+    this.ca_es = false
+    this.nNew_acti.capa_espe = this.ca_es
+    console.log(this.nNew_acti)
   }
+  onIndiChange(event){
+    //console.log(event.value)
+    this.nNew_acti.indicadores = event.value
+    console.log(this.nNew_acti)
+  }
+  
+
   onAreaChange(event){
     console.log(event.value)
     this.nNew_acti.Area = event.value
@@ -73,6 +86,7 @@ export class NuevaactividadComponent implements OnInit {
       }
     })
   }
+
   onBloqChange(event){
     console.log(event.value)
     this.nNew_acti.Bloque = event.value
@@ -97,12 +111,22 @@ export class NuevaactividadComponent implements OnInit {
   options_new(value:any){
     console.log(value)
     if (value === 'Actividad') {
+      this.ser.get_indicadores().subscribe(i => {
+        this.lIndi = i
+        //console.log(this.lIndi)
+      })
       this.lBloq1 = []
       this.lComp1 = [] 
+      this.ca_es = false
+      console.log(this.ca_es)
+      this.nNew_acti.capa_espe = this.ca_es
       delete this.nNew_acti.Area
       delete this.nNew_acti.Bloque
       delete this.nNew_acti.Competencia
+      console.log(this.nNew_acti)
     }else if(value === 'Habilidad'){
+      this.ca_es = false
+      this.nNew_acti.capa_espe = this.ca_es
       delete this.nNew_acti.indicadores
       this.nNew_acti.Area = ""
       console.log(this.nNew_acti)
@@ -138,6 +162,9 @@ export class NuevaactividadComponent implements OnInit {
       if(re_ac_ha.message == 'Nueva Habilidad Guardada'){
         alert(re_ac_ha.message)
         console.log(this.nNew_acti)
+        this.ser.obtener_recurso(re_ac_ha.id).subscribe(oo => {
+          console.log(oo)
+        })
         this.lIdRecu.push(re_ac_ha.id)
         this.nNew_acti.Habilidad = ""
         if(this.nNew_acti.indicadores != undefined){
@@ -169,6 +196,9 @@ export class NuevaactividadComponent implements OnInit {
         this.ser.new_acti_habi(this.nNew_acti).subscribe(re_ac_ha =>{
           //if(re_ac_ha.message == 'Nueva Habilidad Guardada'){
             console.log(re_ac_ha)
+            this.ser.obtener_recurso(re_ac_ha.id).subscribe(oo => {
+              console.log(oo)
+            })
             this.lIdRecu.push(re_ac_ha.id)
             console.log(this.lIdRecu)
             /*this.nNew_acti.Habilidad = ""
@@ -182,16 +212,17 @@ export class NuevaactividadComponent implements OnInit {
     
           //}
         })
-        
-      }
-      
+      } 
       alert('Nuevas Habilidades Guardadas')
     }
-    
-    
   }
   selectFile(files: Event,): void {
-    
+    delete this.nNew_acti.Area
+    delete this.nNew_acti.Bloque
+    delete this.nNew_acti.Competencia
+    delete this.nNew_acti.indicadores
+    this.option = ""
+    this.nNew_acti.Habilidad = ""
     console.log((files.target as HTMLInputElement) .files)
     let file : File = (files.target as HTMLInputElement) .files.item(0);
     console.log(file.name)
@@ -235,7 +266,27 @@ export class NuevaactividadComponent implements OnInit {
       if(this.lines[0].length > 0 && this.linesR[0].length > 0){
         this.conf = true
       }
+      console.log(this.nNew_acti)
     }
+    
+  }
+  indi(value: any){
+    this.nindi = value
+    if (this.nindi == true) {
+      this.nNew_acti.indicadores = ""
+      
+    }else{
+      this.nNew_acti.indicadores = ""
+    }
+  }
+  c_e(value: any){
+    this.ca_es = value
+    if (this.ca_es == true) {
+      this.nNew_acti.capa_espe = true
+    }else{
+      this.nNew_acti.capa_espe = false
+    }
+    console.log(this.nNew_acti)
   }
  
 }

@@ -17,6 +17,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NuevaactividadComponent } from './main/nuevaactividad/nuevaactividad.component';
+import { Recurso2Component } from './main/recurso2/recurso2.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { NuevaactividadComponent } from './main/nuevaactividad/nuevaactividad.co
     InicioComponent,
     RecursoComponent,
     NuevaactividadComponent,
+    Recurso2Component,
   ],
   imports: [
     BrowserModule,

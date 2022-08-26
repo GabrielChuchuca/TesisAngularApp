@@ -4,6 +4,7 @@ import { InicioComponent } from './main/inicio/inicio.component';
 import { LoginComponent } from './main/login/login.component';
 import { NuevaactividadComponent } from './main/nuevaactividad/nuevaactividad.component';
 import { RecursoComponent } from './main/recurso/recurso.component';
+import { Recurso2Component } from './main/recurso2/recurso2.component';
 import { RegistroComponent } from './main/registro/registro.component';
 
 const routes: Routes = [
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: 'recurso/:id',
     component: RecursoComponent
+  },
+  {
+    path: 'recurso2/:id',
+    component: Recurso2Component
   }
 ];
 
