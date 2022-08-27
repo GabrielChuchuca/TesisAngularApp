@@ -25,6 +25,7 @@ export class InicioComponent implements OnInit {
   capa_espe: boolean = sessionStorage.getItem('dCapacidadEsp') == 'true' ? true : false;
   actividad: any;
   habilidad: any;
+  acti_disc: any;
 
   constructor(private ser:ServiciosService, private pRuta: Router) { 
     
@@ -40,7 +41,8 @@ export class InicioComponent implements OnInit {
         this.diagnosticoMed = sessionStorage.getItem('dDiagnosticoMed').split(",");
         console.log(this.diagnosticoMed)
         this.ser.get_one_act_dis(this.diagnosticoMed).subscribe(acdi => {
-          console.log(acdi)
+          this.acti_disc = acdi
+          console.log(this.acti_disc)
         })
       }else{
         this.ser.get_actividades_libro().subscribe(res => {

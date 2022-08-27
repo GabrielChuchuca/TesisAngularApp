@@ -50,7 +50,7 @@
     </div>
     
 </nav>
-<body>
+<body *ngIf="!capa_espe; else cp;">
   
     <mat-tab-group>
       <mat-tab label="Actividades">
@@ -125,6 +125,32 @@
     </mat-tab-group>
     
 </body>
+<ng-template #cp>
+  <body>
+    <mat-tab-group >
+      <mat-tab *ngFor="let a of acti_disc; let i = index" label="{{diagnosticoMed[i]}}">
+        <div style="overflow-x:auto;">
+          <table class="table bg-white">
+            <thead class="text-light">
+              <tr>
+                <th>
+                  Actividades
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let aa of acti_disc[i]">
+                <td>
+                  <a [routerLink]="['/recurso', aa._id]">{{aa.Actividad}}</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </body>
+</ng-template>
 
 </html>
 
