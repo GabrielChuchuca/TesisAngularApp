@@ -176,6 +176,7 @@ export class RegistroComponent implements OnInit {
     }
   }
   SearchIL(){
+    console.log(this.icd10_l)
     if(this.icd10_l == ""){
       this.ser.get_icd10lan().subscribe(icdlan => {
         this.l_icd10_l = icdlan
@@ -190,14 +191,15 @@ export class RegistroComponent implements OnInit {
         }*/
         for (let i = 0; i < this.l_icd10_l.length; i++) {
           this.l_icd10_l[i].selected = false
-          for (let j = 0; j < this.nUsuario.diagnostico_medico.length; j++) {
-            if (this.l_icd10_l[i].code === this.nUsuario.diagnostico_medico[j]) {
+          for (let j = 0; j < this.nUsuario.diagnostico_lenguaje.length; j++) {
+            if (this.l_icd10_l[i].code === this.nUsuario.diagnostico_lenguaje[j]) {
               this.l_icd10_l[i].selected = true
             }
           }
         }
       })
     }else{
+      console.log("else")
       this.l_icd10_l = this.l_icd10_l.filter(resl => {
         return resl.code?.toLocaleLowerCase().match(this.icd10_l.toLocaleLowerCase()) || resl.label[0]?.toLocaleLowerCase().match(this.icd10_l.toLocaleLowerCase()); 
       })

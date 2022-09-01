@@ -55,7 +55,7 @@
   <div class="w-auto">
     <a routerLink="/inicio"><button class="btn btn-warning"><span class="material-icons">
       arrow_back
-      </span></button></a><br><h1 *ngIf="a?.actividades != undefined; else hab"> {{a.actividades}} </h1><ng-template #hab> <h1> {{a?.Habilidad}} </h1> </ng-template>
+      </span></button></a><br><h1 *ngIf="a?.actividades != undefined; else hab"> {{a.actividades}} </h1><ng-template #hab> <h1 *ngIf="a?.Habilidad != undefined;else third"> {{a?.Habilidad}} </h1> </ng-template><ng-template #third> <h1> {{a?.Actividad}} </h1> </ng-template>
     <article>
       <mat-tab-group class="tab">
         <mat-tab label="Recurso Apps" *ngIf="recu[0][0].length > 0">
@@ -298,7 +298,10 @@
             <!--<td><a [routerLink]="['/recurso', n._id]"><button class="btn btn-primary btn-lg" (click)="goto(n._id)">{{n.Habilidad}}</button></a></td>-->
             <td data-label="Actividades Recomendadas" *ngIf="n?.actividades != undefined; else hab"><a [routerLink]="['/recurso2', n._id]">{{n.actividades}}</a></td>
             <ng-template #hab>
-              <td data-label="Actividades Recomendadas"><a [routerLink]="['/recurso2', n._id]">{{n.Habilidad}}</a></td>
+              <td *ngIf="n?.Habilidad != undefined; else third" data-label="Actividades Recomendadas"><a [routerLink]="['/recurso2', n._id]">{{n.Habilidad}}</a></td>
+            </ng-template>
+            <ng-template #third>
+              <td data-label="Actividades Recomendadas"><a [routerLink]="['/recurso2', n._id]">{{n.Actividad}}</a></td>
             </ng-template>
           </tr>
         </tbody>

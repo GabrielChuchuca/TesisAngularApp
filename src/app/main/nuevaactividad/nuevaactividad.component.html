@@ -60,6 +60,58 @@
                 <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="mb-4">
                   <mat-checkbox class="form-control" [(ngModel)]="ca_es" (ngModelChange)="c_e($event)" [ngModelOptions]="{standalone: true}">Para Capacidad Especial</mat-checkbox>
                 </div>
+                <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="mb-4" *ngIf="ca_es">
+                  <label for="" class="form-label">Diagnostico Medico: </label>
+                  <!--<mat-select required id="idRole" name="idRole" class="form-control" multiple>
+                      <mat-option *ngFor="let rFila of l_icd10" [value]="rFila.code"> {{rFila.label}} </mat-option>
+                  </mat-select>-->
+                  <input type="text" [(ngModel)]="icd10_m" class="form-control" placeholder="Busque por codigo....." (ngModelChange)="SearchIM()" [ngModelOptions]="{standalone: true}">
+                  <table class="table">
+                      <thead class="text-light">
+                          <tr>
+                              <th scope="col" class="text-center">Codigo</th>
+                              <th scope="col" class="text-center">Descripcion</th>
+                              <th scope="col" class="text-center">Seleccionado</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let ic of l_icd10_m | paginate: {id: 'icdm',itemsPerPage: 5, currentPage: page_diagm};let indice=index">
+                              <td data-label="Codigo"> {{ic.code}} </td>
+                              <td data-label="Descripcion"> {{ic.label[0]}}</td>
+                              <td data-label="Seleccionado"> 
+                                  <mat-checkbox class="form-control" [checked]="ic.selected" (change)="onChangeM($event, indice)" [disabled]="nNew_acti.codigo.length > 0">TIENE</mat-checkbox>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  <pagination-controls id="icdm" (pageChange)="page_diagm = $event"></pagination-controls>
+              </div>
+              <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="mb-4" *ngIf="ca_es">
+                  <label for="" class="form-label">Diagnostico Lenguaje: </label>
+                  <!--<mat-select required id="idRole" name="idRole" class="form-control">
+                      <mat-option *ngFor="let rFila of l_icd10" [value]="rFila.code"> {{rFila.label}} </mat-option>
+                  </mat-select>-->
+                  <input type="text" [(ngModel)]="icd10_l" placeholder="Busque por codigo....." class="form-control" (ngModelChange)="SearchIL()" [ngModelOptions]="{standalone: true}">
+                  <table class="table">
+                      <thead class="text-light">
+                          <tr>
+                              <th scope="col" class="text-center">Codigo</th>
+                              <th scope="col" class="text-center">Descripcion</th>
+                              <th scope="col" class="text-center">Seleccionado</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let jc of l_icd10_l | paginate: {id: 'icdl',itemsPerPage: 5, currentPage: page_diagl};let indice=index">
+                              <td data-label="Codigo"> {{jc.code}} </td>
+                              <td data-label="Descripcion"> {{jc.label}} </td>
+                              <td data-label="Seleccionado"> 
+                                  <mat-checkbox class="form-control" [checked]="jc.selected" (change)="onChangeL($event, indice)">TIENE</mat-checkbox>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  <pagination-controls id="icdl" (pageChange)="page_diagl = $event"></pagination-controls>
+              </div>
                 <mat-tab-group>
                     <mat-tab label="Crear una actividad">
                         <form>

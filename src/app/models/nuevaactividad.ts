@@ -6,5 +6,6 @@ export class NuevaActividad{
     Habilidad!: string;
     cod!: string;
     indicadores!: string;
-    capa_espe!: boolean
+    capa_espe!: boolean;
+    codigo!: string;
 }

@@ -40,7 +40,7 @@ export class InicioComponent implements OnInit {
       if(this.capa_espe == true){
         this.diagnosticoMed = sessionStorage.getItem('dDiagnosticoMed').split(",");
         console.log(this.diagnosticoMed)
-        this.ser.get_one_act_dis(this.diagnosticoMed).subscribe(acdi => {
+        this.ser.get_act_dis(this.diagnosticoMed).subscribe(acdi => {
           this.acti_disc = acdi
           console.log(this.acti_disc)
         })
@@ -77,9 +77,11 @@ export class InicioComponent implements OnInit {
     }
   }
   SearchA(){
+    //console.log(this.actividad.length)
     if(this.actividad == ""){
       this.ngOnInit()
-    }else{
+    }else if(this.actividad.length > 0){
+      //console.log("elseif")
       this.resu = this.resu.filter(res => {
         return res.actividades?.toLocaleLowerCase().match(this.actividad.toLocaleLowerCase());
       })

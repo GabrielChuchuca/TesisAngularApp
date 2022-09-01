@@ -42,15 +42,22 @@ export class Recurso2Component implements OnInit {
     if(id){
       this.obtenerIdRecurso(id)
       this.ser.get_one_acti(id).subscribe(a => {
-        console.log(a)
+        ///console.log(a)
         if(a != null){
           this.a = a;
-          console.log(this.a)
+          ///console.log(this.a)
         }else{
           this.ser.get_one_habi(id).subscribe(h => {
-            console.log(h)
+            ///console.log(h)
             this.a = h;
-            console.log(this.a)
+            ///console.log(this.a)
+            if(this.a == null){
+              //console.log("if", id)
+              this.ser.get_one_act_dis(id).subscribe(ad => {
+                this.a = ad
+                ///console.log(this.a)
+              })
+            }
           })
         }  
       })

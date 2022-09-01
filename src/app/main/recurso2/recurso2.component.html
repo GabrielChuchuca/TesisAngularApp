@@ -291,7 +291,10 @@
                 <!--<td><a [routerLink]="['/recurso', n._id]"><button class="btn btn-primary btn-lg" (click)="goto(n._id)">{{n.Habilidad}}</button></a></td>-->
                 <td data-label="Actividades Recomendadas" *ngIf="n?.actividades != undefined; else hab"><a [routerLink]="['/recurso', n._id]">{{n.actividades}}</a></td>
                 <ng-template #hab>
-                  <td data-label="Actividades Recomendadas"><a [routerLink]="['/recurso', n._id]">{{n.Habilidad}}</a></td>
+                  <td *ngIf="n?.Habilidad != undefined; else third" data-label="Actividades Recomendadas"><a [routerLink]="['/recurso', n._id]">{{n.Habilidad}}</a></td>
+                </ng-template>
+                <ng-template #third>
+                  <td data-label="Actividades Recomendadas"><a [routerLink]="['/recurso', n._id]">{{n.Actividad}}</a></td>
                 </ng-template>
               </tr>
             </tbody>

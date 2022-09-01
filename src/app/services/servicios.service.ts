@@ -28,7 +28,7 @@ export class ServiciosService {
     return this.usrHttp.post(environment.apiUrlNewUse, usua, httpOptionsJWT);
   }
 
-  logInJWT (dataUsua: Login)
+  logInJWT (dataUsua: Login):Observable<any> 
   {
     console.log(dataUsua) 
     return this.usrHttp.post(environment.apiUrlLog, dataUsua, httpOptionsJWT).pipe
@@ -81,7 +81,7 @@ export class ServiciosService {
     return this.usrHttp.get(environment.apiUrlGetHab, httpOptionsJWT);
   }
   get_one_resource(id: string){
-    return this.usrHttp.get(environment.apiUrlOneRes+id, httpOptionsJWT);
+    return this.usrHttp.get("http://127.0.0.1:8000/recurso/"+id, httpOptionsJWT);
   }
   get_area(){
     return this.usrHttp.get(environment.apiUrlGetAre, httpOptionsJWT);
@@ -98,22 +98,25 @@ export class ServiciosService {
   get_indicadores(){
     return this.usrHttp.get(environment.apiUrlGetInd, httpOptionsJWT);
   }
-  new_acti_habi(acti_habi:NuevaActividad):Observable<any>{
-    return this.usrHttp.post(environment.apiUrlNewAct, acti_habi, httpOptionsJWT);
+  new_acti_habi(acti_habi: any):Observable<any>{
+    return this.usrHttp.post("http://127.0.0.1:8000/habilidades", acti_habi, httpOptionsJWT);
   }
   get_one_acti(id: string){
     return this.usrHttp.get(environment.apiUrlGetOneAct+id, httpOptionsJWT);
   }
   get_one_habi(id: string){
-    return this.usrHttp.get(environment.apiUrlGetOneHab+id, httpOptionsJWT);
+    return this.usrHttp.get("http://127.0.0.1:8000/habilidad/"+id, httpOptionsJWT);
   }
-  obtener_recurso(ids: any){
-    return this.usrHttp.get("http://127.0.0.1:8000/obtenerrecursos/"+ids, httpOptionsJWT);
+  obtener_recurso(ids: any) {
+    return this.usrHttp.post("http://127.0.0.1:8000/obtenerrecursos", ids, httpOptionsJWT);
   }
   get_icd10lan(){
     return this.usrHttp.get(environment.apiUrlGetIcdLan, httpOptionsJWT)
   }
-  get_one_act_dis(ids: any){
+  get_act_dis(ids: any):Observable<any> {
     return this.usrHttp.post("http://127.0.0.1:8000/actividades_d", ids,  httpOptionsJWT)
   }  
+  get_one_act_dis(id: string){
+    return this.usrHttp.get("http://127.0.0.1:8000/actividad_d/"+id, httpOptionsJWT)
+  }
 }
