@@ -113,10 +113,13 @@ export class ServiciosService {
   get_icd10lan(){
     return this.usrHttp.get(environment.apiUrlGetIcdLan, httpOptionsJWT)
   }
-  get_act_dis(ids: any):Observable<any> {
+  set_act_dis(ids: any):Observable<any> {
     return this.usrHttp.post("http://127.0.0.1:8000/actividades_d", ids,  httpOptionsJWT)
   }  
   get_one_act_dis(id: string){
     return this.usrHttp.get("http://127.0.0.1:8000/actividad_d/"+id, httpOptionsJWT)
+  }
+  get_act_dis(){
+    return this.usrHttp.get("http://127.0.0.1:8000/actividades_d", httpOptionsJWT)
   }
 }

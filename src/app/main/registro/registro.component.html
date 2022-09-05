@@ -57,22 +57,26 @@
                 <form *ngIf="rol != 'admin'; else admi">
                     <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="mb-4">
                         <label for="" class="form-label">Cedula: </label>
-                        <input class="form-control" type="text" name="cedula" id="cedula" placeholder="Ingrese su cedula" [(ngModel)]="nUsuario.cedula" [required]="nUsuario.cedula.length > 0">
+                        <input class="form-control" type="text" name="cedula" id="cedula" placeholder="Ingrese su cedula" [(ngModel)]="nUsuario.cedula" [required]="nUsuario.cedula.length > 0" (ngModelChange)="valiCedu()" [ngModelOptions]="{standalone: true}" maxlength="10" minlength="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [pattern]="regeNumb" #unameN="ngModel">
+                        <label *ngIf="unameN.errors?.['pattern']" class="text-danger support-text form-label">Sólo NUMEROS...</label> &nbsp; <label *ngIf="!vVali; else elseBlock" class="text-danger form-label"> {{vValiMens}} </label>
+                        <ng-template #elseBlock><label class="text-success form-label"> {{vValiMens}}  </label></ng-template>
                     </div>
                     <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="mb-4">
                         <label for="" class="form-label">Nombre: </label>
-                        <input class="form-control" type="text" name="nombres" id="nombres" placeholder="Ingrese su nombre" size="20" [(ngModel)]="nUsuario.nombre" [required]="nUsuario.nombre.length > 0">
+                        <input class="form-control" type="text" name="nombres" id="nombres" placeholder="Ingrese su nombre" size="20" [(ngModel)]="nUsuario.nombre" [required]="nUsuario.nombre.length > 0" [pattern]="regeLetr" #unameLN="ngModel" onkeydown="return /[a-zA-Z\u00C0-\u017F ]/i.test(event.key)">
+                        <label *ngIf="unameLN.errors?.['pattern']" class="text-danger support-text form-label">Sólo LETRAS...</label>
                     </div>
                     <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="mb-4">
                         <label for="" class="form-label">Apellido: </label>
-                        <input class="form-control" type="text" name="apellidos" id="apellidos" placeholder="Ingrese su apellidos" size="20" [(ngModel)]="nUsuario.apellido" [required]="nUsuario.apellido.length > 0">
+                        <input class="form-control" type="text" name="apellidos" id="apellidos" placeholder="Ingrese su apellidos" size="20" [(ngModel)]="nUsuario.apellido" [required]="nUsuario.apellido.length > 0" [pattern]="regeLetr" #unameLA="ngModel" onkeydown="return /[a-zA-Z\u00C0-\u017F ]/i.test(event.key)">
+                        <label *ngIf="unameLA.errors?.['pattern']" class="text-danger support-text form-label">Sólo LETRAS...</label>
                     </div>
                     <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="mb-4">
                         <label class="form-label">Fecha de Nacimiento: </label>
                         <input class="form-control" type="date" [ngModel]="nUsuario.fechaNacimiento" (ngModelChange)="userNamengmodelchange($event)" [ngModelOptions]="{standalone: true}" [required]="nUsuario.fechaNacimiento.length >= 0"> 
                     </div>
                     <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="mb-4">
-                        <label for="" class="form-label">Unidad Educativa: </label>
+                        <label for="" class="form-label">Institución: </label>
                         <input class="form-control" type="text" name="unidadEducativa" id="unidadEducativa" placeholder="Ingrese Unidad Educativa" [(ngModel)]="nUsuario.unidadEducativa" [required]="nUsuario.unidadEducativa.length > 0">
                     </div>
                     <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="mb-4">
@@ -132,7 +136,7 @@
                         <pagination-controls id="icdl" (pageChange)="page_diagl = $event"></pagination-controls>
                     </div>
                     <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="d-grid">
-                        <button class="btn btn-outline-success my-2 my-sm-0" (click)="regN()" [disabled]="nUsuario.cedula.length <= 9 || nUsuario.nombre.length <= 2 || nUsuario.apellido.length <= 2 || nUsuario.fechaNacimiento.length <= 9 || nUsuario.unidadEducativa.length < 2">Registrarse</button>
+                        <button class="btn btn-outline-success my-2 my-sm-0" (click)="regN()" [disabled]="nUsuario.cedula.length <= 9 || nUsuario.nombre.length <= 2 || nUsuario.apellido.length <= 2 || nUsuario.fechaNacimiento.length <= 9 || nUsuario.unidadEducativa.length < 2 || !vVali">Registrarse</button>
                     </div>
                     <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="my-3" *ngIf="sToken.length == 0">
                         <span>Si ya tienes una cuenta ingresa aqui <a [routerLink]="['/login']" class="text-info link">Login</a></span>
@@ -145,15 +149,20 @@
                     </div>
                     <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="mb-4">
                         <label for="" class="form-label">Cedula: </label>
-                        <input class="form-control" type="text" name="cedula" id="cedula" placeholder="Ingrese su cedula" [(ngModel)]="nUsuario.cedula" [required]="nUsuario.cedula.length > 0">
+                        <input class="form-control" type="text" name="cedula" id="cedula" placeholder="Ingrese su cedula" [(ngModel)]="nUsuario.cedula" [required]="nUsuario.cedula.length > 0" (ngModelChange)="valiCedu()" [ngModelOptions]="{standalone: true}" maxlength="10" minlength="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [pattern]="regeNumb" #unameN="ngModel">
+                        <label *ngIf="!vVali; else elseBlock" class="text-danger form-label"> {{vValiMens}} </label>
+                        <label *ngIf="unameN.errors?.['pattern']" class="text-danger support-text form-label">Sólo NUMEROS...</label> &nbsp; <label *ngIf="!vVali; else elseBlock" class="text-danger form-label"> {{vValiMens}} </label>
+                        <ng-template #elseBlock><label class="text-success form-label"> {{vValiMens}}  </label></ng-template>
                     </div>
                     <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="mb-4">
                         <label for="" class="form-label">Nombre: </label>
-                        <input class="form-control" type="text" name="nombres" id="nombres" placeholder="Ingrese su nombre" size="20" [(ngModel)]="nUsuario.nombre" [required]="nUsuario.nombre.length > 0">
+                        <input class="form-control" type="text" name="nombres" id="nombres" placeholder="Ingrese su nombre" size="20" [(ngModel)]="nUsuario.nombre" [required]="nUsuario.nombre.length > 0" [pattern]="regeLetr" #unameLN="ngModel" onkeydown="return /[a-zA-Z\u00C0-\u017F ]/i.test(event.key)">
+                        <label *ngIf="unameLN.errors?.['pattern']" class="text-danger support-text form-label">Sólo LETRAS...</label>
                     </div>
                     <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="mb-4">
                         <label for="" class="form-label">Apellido: </label>
-                        <input class="form-control" type="text" name="apellidos" id="apellidos" placeholder="Ingrese su apellidos" size="20" [(ngModel)]="nUsuario.apellido" [required]="nUsuario.apellido.length > 0">
+                        <input class="form-control" type="text" name="apellidos" id="apellidos" placeholder="Ingrese su apellidos" size="20" [(ngModel)]="nUsuario.apellido" [required]="nUsuario.apellido.length > 0" [pattern]="regeLetr" #unameLA="ngModel" onkeydown="return /[a-zA-Z\u00C0-\u017F ]/i.test(event.key)">
+                        <label *ngIf="unameLA.errors?.['pattern']" class="text-danger support-text form-label">Sólo LETRAS...</label>
                     </div>
                     <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="mb-4" *ngIf="corr">
                         <label for="" class="form-label">Correo: </label>
@@ -164,7 +173,7 @@
                         <input class="form-control" type="date" [ngModel]="nUsuario.fechaNacimiento" (ngModelChange)="userNamengmodelchange($event)" [ngModelOptions]="{standalone: true}" [required]="nUsuario.fechaNacimiento.length >= 0"> 
                     </div>
                     <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="mb-4">
-                        <label for="" class="form-label">Unidad Educativa: </label>
+                        <label for="" class="form-label">Institución: </label>
                         <input class="form-control" type="text" name="unidadEducativa" id="unidadEducativa" placeholder="Ingrese Unidad Educativa" [(ngModel)]="nUsuario.unidadEducativa" [required]="nUsuario.unidadEducativa.length > 0">
                     </div>
                     <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="mb-4" *ngIf="!corr">
@@ -224,7 +233,7 @@
                         <pagination-controls id="icdl" (pageChange)="page_diagl = $event"></pagination-controls>
                     </div>
                     <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="d-grid">
-                        <button class="btn btn-outline-success my-2 my-sm-0" (click)="regN()" [disabled]="nUsuario.cedula.length <= 9 || nUsuario.nombre.length <= 2 || nUsuario.apellido.length <= 2 || nUsuario.fechaNacimiento.length <= 9 || nUsuario.unidadEducativa.length < 2">Registrarse</button>
+                        <button class="btn btn-outline-success my-2 my-sm-0" (click)="regN()" [disabled]="nUsuario.cedula.length <= 9 || nUsuario.nombre.length <= 2 || nUsuario.apellido.length <= 2 || nUsuario.fechaNacimiento.length <= 9 || nUsuario.unidadEducativa.length < 2 || !vVali">Registrarse</button>
                     </div>
                 </ng-template>
             </div>

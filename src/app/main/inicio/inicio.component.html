@@ -51,7 +51,6 @@
     
 </nav>
 <body *ngIf="!capa_espe; else cp;">
-  
     <mat-tab-group>
       <mat-tab label="Actividades">
         <!--<div style="float: left; width: 100px; position: relative;">
@@ -60,7 +59,7 @@
           </section>
         </div>-->
         <div style="overflow-x:auto;" >
-          <input type="text" name="" id="" class="form-control" placeholder="Busque actividad......." [(ngModel)]="actividad" (ngModelChange)="SearchA()">
+          <input matInput type="text" name="" id="" class="form-control" placeholder="Busque actividad......." [(ngModel)]="actividad" (ngModelChange)="SearchA()">
           <table class="table bg-white">
               <thead class="text-light">
                 <tr>
@@ -91,10 +90,9 @@
             <pagination-controls id="list_acti" (pageChange)="page_acti = $event"></pagination-controls>
         </div>
       </mat-tab>
-
       <mat-tab label="Habilidades">
         <div style="overflow-x:auto;">
-          <input type="text" name="" id="" class="form-control" placeholder="Busque habilidad......." [(ngModel)]="habilidad" (ngModelChange)="SearchH()">
+          <input matInput type="text" name="" id="" class="form-control" placeholder="Busque habilidad......." [(ngModel)]="habilidad" (ngModelChange)="SearchH()">
           <table class="table bg-white">
               <thead class="text-light">
                 <tr>
@@ -121,15 +119,32 @@
             <pagination-controls id="list_habi" (pageChange)="page_habi = $event"></pagination-controls>
         </div>
       </mat-tab>
-      
+      <mat-tab label="Actividades Especiales"><!--*ngIf="acti_disc?.length > 0 && rol != 'usuario'"-->
+        <div style="overflow-x:auto;">
+          <input matInput type="text" name="" id="" class="form-control" placeholder="Busque actividad especial......." [(ngModel)]="actividad_especial" (ngModelChange)="searchAD()">
+          <table class="table bg-white">
+            <thead class="text-light">
+              <tr>
+                <th scope="col" class="text-center">Actividades Especiales</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let ad of acti_disc | paginate: {id: 'list_act_dis', itemsPerPage: 5, currentPage: page_act_dis};let indice = index">
+                <td data-label="Actividades Especiales">Descripcion de Actividad Especial:<a [routerLink]=""><h2>{{ad.Actividad}}</h2></a></td>
+              </tr>
+            </tbody>
+          </table>
+          <pagination-controls id="list_act_dis" (pageChange)="page_act_dis = $event"></pagination-controls>
+        </div>
+      </mat-tab>
     </mat-tab-group>
-    
 </body>
 <ng-template #cp>
   <body>
     <mat-tab-group >
-      <mat-tab *ngFor="let a of acti_disc; let i = index" label="{{diagnosticoMed[i]}}">
+      <mat-tab *ngFor="let a of diagnosticoMed; let i = index" label="{{diagnosticoMed[i]}}">
         <div style="overflow-x:auto;">
+          <input matInput type="text" name="" id="" class="form-control" placeholder="Busque su actividad......." [(ngModel)]="one_actividad_especial" (ngModelChange)="searchOAD(i)">
           <table class="table bg-white">
             <thead class="text-light">
               <tr>
@@ -139,7 +154,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let aa of acti_disc[i]">
+              <tr *ngFor="let aa of some_acti_disc[i]">
                 <td>
                   <a [routerLink]="['/recurso', aa._id]">{{aa.Actividad}}</a>
                 </td>

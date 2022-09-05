@@ -32,6 +32,10 @@ export class RegistroComponent implements OnInit {
   fN!: Date;
   tiem!: number;
   corr: boolean = false;
+  vVali!: boolean;
+  vValiMens: string = "";
+  regeNumb = "^[0-9]+$";
+  regeLetr = "^[a-zA-Z\u00C0-\u017F ]+$";
 
 
   constructor(private ser:ServiciosService,private builder: FormBuilder, private pRu:Router) { }
@@ -232,6 +236,54 @@ export class RegistroComponent implements OnInit {
         this.nUsuario.diagnostico_lenguaje.splice(this.indexOfL, 1);
       }
       console.log(this.nUsuario.diagnostico_lenguaje)
+    }
+  }
+
+  /* ------------ */
+  validadorDeCedula(cedula:string):boolean {
+    let cedulaCorrecta = false;
+    if (cedula.length == 10)
+    {    
+        let tercerDigito = parseInt(cedula.substring(2 , 3));
+        if (tercerDigito < 6) {
+            // El ultimo digito se lo considera dígito verificador
+            let coefValCedula = [2, 1, 2, 1, 2, 1, 2, 1, 2];       
+            let verificador = parseInt(cedula.substring(9, 10));
+            let suma:number = 0;
+            let digito:number = 0;
+            for (let i = 0; i < (cedula.length - 1); i++) {
+                digito = parseInt(cedula.substring(i, i + 1)) * coefValCedula[i];      
+                suma += ((parseInt((digito % 10)+'') + (parseInt((digito / 10)+''))));
+            }
+            suma= Math.round(suma);
+            if ((Math.round(suma % 10) == 0) && (Math.round(suma % 10)== verificador)) {
+                cedulaCorrecta = true;
+            } else if ((10 - (Math.round(suma % 10))) == verificador) {
+                cedulaCorrecta = true;
+            } else {
+                cedulaCorrecta = false;
+            }
+        } else {
+            cedulaCorrecta = false;
+        }
+    } else {
+        cedulaCorrecta = false;
+    }
+    return cedulaCorrecta;
+  }
+  valiCedu(){
+    if (this.nUsuario.cedula.length > 2 && this.nUsuario.cedula.length < 10) {
+      this.vVali = false
+      this.vValiMens = "Ingrese 10 digitos"
+    }else if(this.nUsuario.cedula.length == 10){
+      this.vVali = this.validadorDeCedula(this.nUsuario.cedula)
+      if(this.vVali){
+        this.vValiMens = "Cedula Correcta"
+      }else{
+        this.vValiMens = "Cedula Incorrecta"
+      }
+    }else if(this.nUsuario.cedula.length == 0){
+      this.vValiMens = ""
     }
   }
 }

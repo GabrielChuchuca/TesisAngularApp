@@ -1,6 +1,9 @@
 body{
     background: #ffe259;
     background: linear-gradient(to right, #ffa751, #ffe259);
+    width: 100%;
+    height: 100%;
+
 }
 table {
     border-collapse: collapse;
