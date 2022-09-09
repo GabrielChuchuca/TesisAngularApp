@@ -81,7 +81,8 @@ export class ServiciosService {
     return this.usrHttp.get(environment.apiUrlGetHab, httpOptionsJWT);
   }
   get_one_resource(id: string){
-    return this.usrHttp.get("http://127.0.0.1:8000/recurso/"+id, httpOptionsJWT);
+    //return this.usrHttp.get("http://127.0.0.1:8000/recurso/"+id, httpOptionsJWT);
+    return this.usrHttp.get(environment.apiUrlOneRes+id, httpOptionsJWT);
   }
   get_area(){
     return this.usrHttp.get(environment.apiUrlGetAre, httpOptionsJWT);
@@ -99,27 +100,33 @@ export class ServiciosService {
     return this.usrHttp.get(environment.apiUrlGetInd, httpOptionsJWT);
   }
   new_acti_habi(acti_habi: any):Observable<any>{
-    return this.usrHttp.post("http://127.0.0.1:8000/habilidades", acti_habi, httpOptionsJWT);
+    //return this.usrHttp.post("http://127.0.0.1:8000/habilidades", acti_habi, httpOptionsJWT);
+    return this.usrHttp.post(environment.apiUrlNewAct, acti_habi, httpOptionsJWT);
   }
   get_one_acti(id: string){
     return this.usrHttp.get(environment.apiUrlGetOneAct+id, httpOptionsJWT);
   }
   get_one_habi(id: string){
-    return this.usrHttp.get("http://127.0.0.1:8000/habilidad/"+id, httpOptionsJWT);
+    //return this.usrHttp.get("http://127.0.0.1:8000/habilidad/"+id, httpOptionsJWT);
+    return this.usrHttp.get(environment.apiUrlGetOneHab+id, httpOptionsJWT);
   }
   obtener_recurso(ids: any) {
-    return this.usrHttp.post("http://127.0.0.1:8000/obtenerrecursos", ids, httpOptionsJWT);
+    //return this.usrHttp.post("http://127.0.0.1:8000/obtenerrecursos", ids, httpOptionsJWT);
+    return this.usrHttp.post(environment.apiUrlGetRes, ids, httpOptionsJWT);
   }
   get_icd10lan(){
     return this.usrHttp.get(environment.apiUrlGetIcdLan, httpOptionsJWT)
   }
   set_act_dis(ids: any):Observable<any> {
-    return this.usrHttp.post("http://127.0.0.1:8000/actividades_d", ids,  httpOptionsJWT)
+    //return this.usrHttp.post("http://127.0.0.1:8000/actividades_d", ids,  httpOptionsJWT)
+    return this.usrHttp.post(environment.apiUrlSetActEsp, ids,  httpOptionsJWT);
   }  
   get_one_act_dis(id: string){
-    return this.usrHttp.get("http://127.0.0.1:8000/actividad_d/"+id, httpOptionsJWT)
+    //return this.usrHttp.get("http://127.0.0.1:8000/actividad_d/"+id, httpOptionsJWT)
+    return this.usrHttp.get(environment.apiUrlGetOneActEsp+id, httpOptionsJWT)
   }
   get_act_dis(){
-    return this.usrHttp.get("http://127.0.0.1:8000/actividades_d", httpOptionsJWT)
+    //return this.usrHttp.get("http://127.0.0.1:8000/actividades_d", httpOptionsJWT)
+    return this.usrHttp.get(environment.apiUrlGetActEsp, httpOptionsJWT)
   }
 }
