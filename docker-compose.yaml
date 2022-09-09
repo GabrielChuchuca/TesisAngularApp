@@ -1,7 +1,10 @@
 version: "3.7"
 services:
     angular-service:
+       build:
+        context: .
+        dockerfile: Dockerfile
        container_name: tesis-interfaz
-       build: .
+       image: tesis-interfaz_angular-service:latest
        ports:
            - "80:80"
