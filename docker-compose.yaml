@@ -5,6 +5,6 @@ services:
         context: .
         dockerfile: Dockerfile
        container_name: tesis-interfaz
-       image: tesis-interfaz_angular-service:latest
+       image: tesis-interfaz_angular-service:v1
        ports:
            - "80:80"
