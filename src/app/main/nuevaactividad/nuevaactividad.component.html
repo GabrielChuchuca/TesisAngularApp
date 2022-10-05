@@ -135,7 +135,7 @@
                             <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="mb-4" *ngIf="option == 'Actividad' && !nindi">
                               <label for="" class="form-label">Indicadores: </label>
                               <mat-select required id="idIndi" name="idIndi" class="form-control" (selectionChange)="onIndiChange($event)">
-                                  <mat-option *ngFor="let rFila of lIndi" [value]="rFila.id"> {{rFila.indicadores}} </mat-option>
+                                  <mat-option *ngFor="let rFila of lIndi" [value]="rFila._id"> {{rFila.indicadores}} </mat-option>
                               </mat-select>
                             </div>
                             <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="mb-4" *ngIf="option == 'Actividad' && nNew_acti.Habilidad.length > 0 && nindi">

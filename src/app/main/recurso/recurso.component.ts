@@ -15,6 +15,21 @@ export class RecursoComponent implements OnInit {
   fA: Date = new Date();
   fN!: Date;
   recu: any = []
+  sliceOptionsC = {
+    start: 0,
+    end: 100,
+    default: 100
+  }
+  sliceOptionsJ = {
+    start: 0,
+    end: 100,
+    default: 100
+  }
+  sliceOptionsV = {
+    start: 0,
+    end: 100,
+    default: 100
+  }
   iFrameUrl!: SafeResourceUrl;
   domSaniUrlsCuen: any = []
   domSaniUrlsJueg: any = []
@@ -66,6 +81,18 @@ export class RecursoComponent implements OnInit {
         }  
       })
     }
+  }
+  onExpandTextC(evt:any): void{
+    this.sliceOptionsC.end = this.sliceOptionsC.end?undefined:this.sliceOptionsC.default;
+    console.log(this.sliceOptionsC.end)
+  }
+  onExpandTextJ(evt:any): void{
+    this.sliceOptionsJ.end = this.sliceOptionsJ.end?undefined:this.sliceOptionsJ.default;
+    console.log(this.sliceOptionsJ.end)
+  }
+  onExpandTextV(evt:any): void{
+    this.sliceOptionsV.end = this.sliceOptionsV.end?undefined:this.sliceOptionsV.default;
+    console.log(this.sliceOptionsV.end)
   }
 
   goto(i: string){

@@ -26,16 +26,12 @@
             <a class="nav-link" aria-current="page" routerLink="/registro"><span class="material-icons">
               groups
               </span> Crear Usuario</a>
-          </li>
-          
+          </li> 
           <!--<li class="nav-item">
               <a class="nav-link" aria-current="page" routerLink="/registroRa"><span class="material-icons">
                 receipt_long
                 </span>Crear Reserva</a>
           </li>-->
-          
-            
-          
         </ul>
         <p style="margin-left: auto;"><span class="material-icons">
           account_circle
@@ -43,12 +39,8 @@
         <button style="margin-right: 10px; margin-left: auto;" class="bg-danger" onclick="sessionStorage.clear(); window.location.reload();"><span class="material-icons">
           logout
           </span></button>
-        
       </div>
-      
-      
-    </div>
-    
+    </div> 
 </nav>
 <body *ngIf="!capa_espe; else cp;">
     <mat-tab-group>
@@ -58,26 +50,23 @@
             <mat-checkbox class="example-margin" style="position: absolute;"> {{i.indicadores}} </mat-checkbox>
           </section>
         </div>-->
-        <div style="overflow-x:auto;" >
-          <input matInput type="text" name="" id="" class="form-control" placeholder="Busque actividad......." [(ngModel)]="actividad" (ngModelChange)="SearchA()">
+        <div style="overflow-x:auto;">
+          <!--<input matInput type="text" name="" id="" class="form-control" placeholder="Busque actividad......." [(ngModel)]="actividad" (ngModelChange)="SearchA()">
           <table class="table bg-white">
               <thead class="text-light">
                 <tr>
                   <th scope="col" class="text-center">Actividad</th>
-                  <!--<th scope="col" class="text-center">Recurso</th>-->
+                  
                 </tr>
               </thead>
               <ng-container *ngIf="resu.length > 0;else second">
                 <tbody>
                   <tr *ngFor="let i of resu | paginate: {id: 'list_acti', itemsPerPage: 5, currentPage: page_acti};let indice=index">
-                  <!--<tr *ngFor="let i of resu">-->
                     <td data-label="Actividad"> 
                       Pagina: <h1>{{i.pagina}}</h1>
                       Descripcion de Actividad: <a [routerLink]="['/recurso', i._id]"><h2> {{i.actividades}}</h2></a>
                     </td>
-                    <!--<td data-label="Actividad">{{i.actividades}}</td>-->
-                    <!--<td data-label="Recurso"><a [routerLink]="['/recurso', i._id]"> Ver Recurso </a></td>-->
-                    <!--<td><a><button (click)="obtenerIdRecurso(resu[indice].id)">VER</button></a></td>-->
+                
                   </tr>
                 </tbody>
               </ng-container>
@@ -87,25 +76,38 @@
                 </tr>
               </ng-template>
             </table>
-            <pagination-controls id="list_acti" (pageChange)="page_acti = $event"></pagination-controls>
+            <pagination-controls id="list_acti" (pageChange)="page_acti = $event"></pagination-controls>-->
+            <input matInput type="text" name="" id="" class="form-control" placeholder="Busque actividad......." (keyup)="applyFilterAL($event)">
+            <table mat-table class="table bg-white" [dataSource]="dataSourceActiLibr">
+              <ng-container matColumnDef="actividades">
+                <th mat-header-cell *matHeaderCellDef scope="col" class="text-center"><h1>Actividad</h1></th>
+                <td data-label="Actividad" mat-cell *matCellDef="let element;let i = index;">
+                  Pagina:<h1>{{element.pagina}}</h1>Descripcion de Actividad:<h2><a [routerLink]="['/recurso', element._id]">{{element.actividades | slice:sliceOptionsAL.start:sliceOptionsAL.end}}</a></h2>
+                                                                             <h2 *ngIf="element.actividades.length >= sliceOptionsAL.default"><span *ngIf="sliceOptionsAL.end == undefined;else AL" (click)="onExpandTextAL($event)">...Ver menos</span><ng-template #AL><span (click)="onExpandTextAL($event)">Ver mas...</span></ng-template></h2>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumnsAL"></tr>
+              <tr mat-row *matRowDef="let element; columns: displayedColumnsAL;"></tr>
+              <tr *matNoDataRow>
+                <td class="mat-cell" colspan="4">No se encontro ningun resultado</td>
+              </tr>
+            </table>
+            <mat-paginator #paginatorAL="matPaginator" [pageSizeOptions]="[5, 10, 20, 30]" showFirstLastButtons aria-label="select page of activities"></mat-paginator>
         </div>
       </mat-tab>
       <mat-tab label="Habilidades">
         <div style="overflow-x:auto;">
-          <input matInput type="text" name="" id="" class="form-control" placeholder="Busque habilidad......." [(ngModel)]="habilidad" (ngModelChange)="SearchH()">
+          <!--<input matInput type="text" name="" id="" class="form-control" placeholder="Busque habilidad......." [(ngModel)]="habilidad" (ngModelChange)="SearchH()">
           <table class="table bg-white">
               <thead class="text-light">
                 <tr>
                   <th scope="col" class="text-center">Habilidad</th>
-                  <!--<th scope="col" class="text-center">Recurso</th>-->
                 </tr>
               </thead>
               <ng-container *ngIf="habi.length > 0;else third">
                 <tbody>
                   <tr *ngFor="let j of habi | paginate: {id: 'list_habi', itemsPerPage: 5, currentPage: page_habi};let indice=index">
                     <td data-label="Habilidad"> Descripcion de Habilidad:<a [routerLink]="['/recurso', j._id]"><h2>{{j.Habilidad}}</h2> </a></td>
-                    <!--<td data-label="Recurso"><a [routerLink]="['/recurso', j._id]"> Ver Recurso </a></td>-->
-                    <!--<td><a><button (click)="obtenerIdRecurso(habi[indice].id)">VER</button></a></td>-->
                   </tr>
                 </tbody>
             </ng-container>
@@ -116,12 +118,28 @@
               </tr>
             </ng-template>
             </table>
-            <pagination-controls id="list_habi" (pageChange)="page_habi = $event"></pagination-controls>
+            <pagination-controls id="list_habi" (pageChange)="page_habi = $event"></pagination-controls>-->
+            <input matInput type="text" search placeholder="Busque habilidad......." class="form-control" (keyup)="applyFilterH($event)">
+            <table mat-table class="table bg-white" [dataSource]="dataSourceHabi">
+              <ng-container matColumnDef="Habilidad">
+                <th mat-header-cell *matHeaderCellDef scope="col" class="text-center"><h1>Habilidad</h1></th>
+                <td data-label="Habilidad" mat-cell *matCellDef="let element;let i = index;">
+                  Descripcion de Habilidad:<h2><a [routerLink]="['/recurso', element._id]">{{element.Habilidad | slice:sliceOptionsH.start:sliceOptionsH.end}}</a></h2>
+                                           <h2 *ngIf="element.Habilidad.length >= sliceOptionsH.default"><span *ngIf="sliceOptionsH.end == undefined;else H" (click)="onExpandTextH($event)">...Ver menos</span><ng-template #H><span (click)="onExpandTextH($event)">Ver más...</span></ng-template></h2>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumnsH"></tr>
+              <tr mat-row *matRowDef="let element; columns: displayedColumnsH;"></tr>
+              <tr *matNoDataRow>
+                <td class="mat-cell" colspan="4">No se encontro ningun resultado</td>
+              </tr>
+            </table>
+            <mat-paginator #paginatorH="matPaginator" [pageSizeOptions]="[5, 10, 20, 30]" showFirstLastButtons aria-label="select page of activities"></mat-paginator>
         </div>
       </mat-tab>
-      <mat-tab label="Actividades Especiales"><!--*ngIf="acti_disc?.length > 0 && rol != 'usuario'"-->
+      <mat-tab label="Actividades Especiales" *ngIf="rol != 'usuario'"><!--*ngIf="acti_disc?.length > 0 && rol != 'usuario'"-->
         <div style="overflow-x:auto;">
-          <input matInput type="text" name="" id="" class="form-control" placeholder="Busque actividad especial......." [(ngModel)]="actividad_especial" (ngModelChange)="searchAD()">
+          <!--<input matInput type="text" name="" id="" class="form-control" placeholder="Busque actividad especial......." [(ngModel)]="actividad_especial" (ngModelChange)="searchAD()">
           <table class="table bg-white">
             <thead class="text-light">
               <tr>
@@ -134,7 +152,90 @@
               </tr>
             </tbody>
           </table>
-          <pagination-controls id="list_act_dis" (pageChange)="page_act_dis = $event"></pagination-controls>
+          <pagination-controls id="list_act_dis" (pageChange)="page_act_dis = $event"></pagination-controls>-->
+          <input matInput type="text" name="" id="" class="form-control" placeholder="Busque actividad especial......." (keyup)="applyFilterAE($event)">
+          <table mat-table class="table bg-white" [dataSource]="dataSourceActiEspe">
+            <ng-container matColumnDef="Actividad">
+              <th mat-header-cell *matHeaderCellDef scope="col" class="text-center"><h1>Actividades Especiales</h1></th>
+              <td data-label="Actividad" mat-cell *matCellDef="let element;let i = index;">
+                Descripcion de Actividad Especial:<h2><a [routerLink]="['/recurso', element._id]">{{element.Actividad | slice:sliceOptionsAE.start:sliceOptionsAE.end}}</a></h2>
+                                                  <h2 *ngIf="element.Actividad.length >= sliceOptionsAE.default"><span *ngIf="sliceOptionsAE.end == undefined;else Sec" (click)="onExpandTextAE($event)">...Ver menos</span><ng-template #Sec><span (click)="onExpandTextAE($event)">Ver más...</span></ng-template></h2> 
+              </td>
+              <!--<td data-label="Actividad" mat-cell *matCellDef="let element">Descripcion de Actividad Especial:<a [routerLink]="['/recurso', element._id]"> <h2>{{element.Actividad | slice:sliceOptions.start:sliceOptions.end}}</h2></a><a [routerLink]="['/recurso', element._id]" ><h2 *ngIf="element.Actividad.length >= sliceOptions.default"><span class="arrow-down" (click)="onExpandText($event)"></span></h2></a> </td>-->
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsAE"></tr>
+            <tr mat-row *matRowDef="let element; columns: displayedColumnsAE;"></tr>
+            <tr *matNoDataRow>
+              <td class="mat-cell" colspan="4">No se encontro ningun resultado</td>
+            </tr>
+          </table>
+          <mat-paginator #paginatorAE="matPaginator" [pageSizeOptions]="[5, 10, 20, 30]" showFirstLastButtons aria-label="select page of activities"></mat-paginator>
+        </div>
+      </mat-tab>
+      <mat-tab label="Actividades Recientes">
+        <div style="overflow-x:auto;">
+          <input matInput type="text" placeholder="Buscar" search (keyup)="applyFilterAR($event)" class="form-control">
+          <table mat-table class="table bg-white" [dataSource]="dataSourceActiReci">
+            <ng-container matColumnDef="Habilidad">
+              <th mat-header-cell *matHeaderCellDef> <h1>Habilidad</h1></th>
+              <td data-label="Actividades Recientes" mat-cell *matCellDef="let element;let i = index;">
+                Descripcion de Habilidad:<h2><a [routerLink]="['/recurso', element._id]">{{element.Habilidad | slice:sliceOptionsAR.start:sliceOptionsAR.end}}</a></h2>
+                                         <h2 *ngIf="element.Habilidad.length >= sliceOptionsAR.default"><span *ngIf="sliceOptionsAR.end == undefined; else AR" (click)="onExpandTextAR($event)">...Ver menos</span><ng-template #AR><span (click)="onExpandTextAR($event)">Ver más...</span></ng-template></h2>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsAR"></tr>
+            <tr mat-row *matRowDef="let element; columns: displayedColumnsAR;"></tr>
+            <tr *matNoDataRow>
+              <td class="mat-cell" colspan="4">No se encontro ningun resultado</td>
+            </tr>
+          </table>
+          <mat-paginator #paginatorAR="matPaginator" [pageSizeOptions]="[5, 10, 20, 30]" showFirstLastButtons aria-label="select page of activities"></mat-paginator>
+          <!--<table class="table bg-white">
+            <thead class="text-light">
+              <tr>
+                <th scope="col" class="text-center">Actividades Recientes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let ad of acti_reci | paginate: {id: 'list_act_reci', itemsPerPage: 5, currentPage: page_acti_reci};let indice = index">
+                <td data-label="Actividades Recientes">Descripcion de Actividad Especial:<a [routerLink]=""><h2>{{ad.Habilidad}}</h2></a></td>
+              </tr>
+            </tbody>
+          </table>
+          <pagination-controls id="list_act_reci" (pageChange)="page_acti_reci = $event"></pagination-controls>-->
+        </div>
+      </mat-tab>
+      <mat-tab label="Actividades Especiales Recientes">
+        <div style="overflow-x:auto;">
+          <input matInput type="text" placeholder="Buscar" search (keyup)="applyFilterADR($event)" class="form-control">
+          <table mat-table class="table bg-white" [dataSource]="dataSourceActiDiscReci">
+            <ng-container matColumnDef="Habilidad">
+              <th mat-header-cell *matHeaderCellDef><h1>Habilidad</h1></th>
+              <td data-label="Actividades Recientes" mat-cell *matCellDef="let element;let i = index;">
+                Descripcion de Habilidad:<h2><a [routerLink]="['/recurso', element._id]">{{element.Habilidad}}</a></h2>
+                                         <h2 *ngIf="element.Habilidad.length >= sliceOptionsADR.default"><span *ngIf="sliceOptionsADR.end == undefined; else ADR" (click)="onExpandTextADR($event)">...Ver menos</span><ng-template #ADR><span (click)="onExpandTextADR($event)">Ver más...</span></ng-template></h2>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsADR"></tr>
+            <tr mat-row *matRowDef="let element; columns: displayedColumnsADR;"></tr>
+            <tr *matNoDataRow>
+              <td class="mat-cell" colspan="4">No se encontro ningun resultado</td>
+            </tr>
+          </table>
+          <mat-paginator #paginatorADR="matPaginator" [pageSizeOptions]="[5, 10, 20, 30]" showFirstLastButtons aria-label="select page of activities"></mat-paginator>
+          <!--<table class="table bg-white">
+            <thead class="text-light">
+              <tr>
+                <th scope="col" class="text-center">Actividades Recientes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let ad of acti_reci | paginate: {id: 'list_act_reci', itemsPerPage: 5, currentPage: page_acti_reci};let indice = index">
+                <td data-label="Actividades Recientes">Descripcion de Actividad Especial:<a [routerLink]=""><h2>{{ad.Habilidad}}</h2></a></td>
+              </tr>
+            </tbody>
+          </table>
+          <pagination-controls id="list_act_reci" (pageChange)="page_acti_reci = $event"></pagination-controls>-->
         </div>
       </mat-tab>
     </mat-tab-group>
@@ -142,9 +243,25 @@
 <ng-template #cp>
   <body>
     <mat-tab-group >
-      <mat-tab *ngFor="let a of diagnosticoMed; let i = index" label="{{diagnosticoMed[i]}}">
+      <mat-tab label="{{diagnosticoMed[0]}}" *ngIf="diagnosticoMed.length == 1">
         <div style="overflow-x:auto;">
-          <input matInput type="text" name="" id="" class="form-control" placeholder="Busque su actividad......." [(ngModel)]="one_actividad_especial" (ngModelChange)="searchOAD(i)">
+          <input matInput type="text" placeholder="Buscar" search (keyup)="applyFilterAD($event)" class="form-control">
+          <table mat-table class="table bg-white" [dataSource]="dataSourceActiDisc">
+            <ng-container matColumnDef="Actividad">
+              <th mat-header-cell *matHeaderCellDef scope="col" class="text-center"><h1>Actividades</h1></th>
+              <td data-label="Actividad" mat-cell *matCellDef="let element;let i = index;">
+                Descripcion de Actividad Especial:<h2><a [routerLink]="['/recurso', element._id]">{{element.Actividad | slice:sliceOptionsAD.start:sliceOptionsAD.end}}</a></h2>
+                                                  <h2 *ngIf="element.Actividad.length >= sliceOptionsAD.default"><span *ngIf="sliceOptionsAD.end == undefined;else AD" (click)="onExpandTextAD($event)">...Ver menos</span><ng-template #AD><span (click)="onExpandTextAD($event)">Ver más...</span></ng-template></h2>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsAD"></tr>
+            <tr mat-row *matRowDef="let element; columns: displayedColumnsAD;"></tr>
+            <tr *matNoDataRow>
+              <td class="mat-cell" colspan="4">No se encontro ningun resultado</td>
+            </tr>
+          </table>
+          <mat-paginator #paginatorAD="matPaginator" [pageSizeOptions]="[5, 10, 20, 30]" showFirstLastButtons aria-label="select page of activities"></mat-paginator>
+          <!--<input matInput type="text" name="" id="" class="form-control" placeholder="Busque su actividad......." [(ngModel)]="one_actividad_especial" (ngModelChange)="searchOAD(i)">
           <table class="table bg-white">
             <thead class="text-light">
               <tr>
@@ -160,13 +277,16 @@
                 </td>
               </tr>
             </tbody>
-          </table>
+          </table>-->
         </div>
+      </mat-tab>
+      <mat-tab label="{{diagnosticoMed[1]}}" *ngIf="diagnosticoMed.length == 2">
+
+      </mat-tab>
+      <mat-tab label="{{diagnosticoMed[2]}}" *ngIf="diagnosticoMed.length == 3">
+
       </mat-tab>
     </mat-tab-group>
   </body>
 </ng-template>
-
 </html>
-
-

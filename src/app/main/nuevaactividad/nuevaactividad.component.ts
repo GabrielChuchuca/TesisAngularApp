@@ -125,7 +125,7 @@ export class NuevaactividadComponent implements OnInit {
     if (value === 'Actividad') {
       this.ser.get_indicadores().subscribe(i => {
         this.lIndi = i
-        //console.log(this.lIndi)
+        console.log(this.lIndi)
       })
       this.lBloq1 = []
       this.lComp1 = [] 

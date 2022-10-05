@@ -110,7 +110,7 @@
                   <tr>
                     <td data-label="Descripcion">
                       <strong><u>TITULO:</u></strong> <h1>{{j.titulo}}</h1>
-                      <strong><u>CONTENIDO DEL CUENTO:</u></strong> <h2>{{j.cuento}}</h2>
+                      <strong><u>CONTENIDO DEL CUENTO:</u></strong> <h2>{{j.cuento | slice:sliceOptionsC.start:sliceOptionsC.end}}</h2><h2 *ngIf="j.cuento.length >= sliceOptionsC.default"><span *ngIf="sliceOptionsC.end == undefined;else C" (click)="onExpandTextC($event)">...Ver menos</span><ng-template #C><span (click)="onExpandTextC($event)">Ver más...</span></ng-template></h2>
                       <strong><u>VISTA PREVIA:</u></strong> <div class="iframe-container"><iframe [src]="domSaniUrlsCuen[indice]" scrolling="yes" frameborder="1" allowfullscreen></iframe></div>
                       <strong><u>URL:</u></strong> <br> <a href="{{j.url}}" target="_blank" rel="noopener noreferrer">{{j.url}}</a><br>
                     </td>
@@ -151,7 +151,7 @@
                       <tr>
                         <td data-label="Descripcion">
                           <strong><u>TITULO:</u></strong> <h1>{{k.titulo}}</h1>
-                          <strong><u>DESCRIPCION DEL JUEGO:</u></strong><h2>{{k.descripcion}}</h2> 
+                          <strong><u>DESCRIPCION DEL JUEGO:</u></strong><h2>{{k.descripcion | slice:sliceOptionsJ.start:sliceOptionsJ.end}}</h2><h2 *ngIf="k.descripcion.length >= sliceOptionsJ.default"><span *ngIf="sliceOptionsJ.end == undefined;else J" (click)="onExpandTextJ($event)">...Ver menos</span><ng-template #J><span (click)="onExpandTextJ($event)">Ver más...</span></ng-template></h2> 
                           <strong><u>VISTA PREVIA:</u></strong><div class="iframe-container"> <iframe [src]="domSaniUrlsJueg[indice]" scrolling="yes" allowfullscreen></iframe></div>
                           <strong><u>URL:</u></strong> <br><a href="{{k.url}}" target="_blank" rel="noopener noreferrer">{{k.url}}</a><br>
                         </td>
@@ -260,7 +260,7 @@
                         <!--<td> <a href={{n.url}} target="_blank" rel="noopener noreferrer">oe</a> </td>-->
                         <td data-label="Vista Previa">
                           <strong><ul>TITULO:</ul></strong><h1>{{n.titulo}}</h1>
-                          <strong><u>VISTA PREVIA:</u></strong><div class="iframe-container"><iframe [src]="domSaniUrlsVide[indice]" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><strong><u>Texto del Video:</u></strong><h2>{{n.texto}}</h2>
+                          <strong><u>VISTA PREVIA:</u></strong><div class="iframe-container"><iframe [src]="domSaniUrlsVide[indice]" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><strong><u>Texto del Video:</u></strong><h2>{{n.texto | slice:sliceOptionsV.start:sliceOptionsV.end}}</h2><h2 *ngIf="n.texto.length >= sliceOptionsV.default"><span *ngIf="sliceOptionsV.end == undefined;else V" (click)="onExpandTextV($event)">...Ver menos</span><ng-template #V><span (click)="onExpandTextV($event)">Ver más...</span></ng-template></h2>
                           <strong><ul>URL:</ul></strong><br><a href="{{n.url}}" target="_blank" rel="noopener noreferrer">{{n.url}}</a><br>
                         </td>
                       </tr>

@@ -97,7 +97,8 @@ export class ServiciosService {
     return this.usrHttp.get(environment.apiUrlGetIcd, httpOptionsJWT)
   }
   get_indicadores(){
-    return this.usrHttp.get(environment.apiUrlGetInd, httpOptionsJWT);
+    return this.usrHttp.get("http://127.0.0.1:8000/indicadores", httpOptionsJWT);
+    //return this.usrHttp.get(environment.apiUrlGetInd, httpOptionsJWT);
   }
   new_acti_habi(acti_habi: any):Observable<any>{
     //return this.usrHttp.post("http://127.0.0.1:8000/habilidades", acti_habi, httpOptionsJWT);
@@ -111,15 +112,16 @@ export class ServiciosService {
     return this.usrHttp.get(environment.apiUrlGetOneHab+id, httpOptionsJWT);
   }
   obtener_recurso(ids: any) {
-    //return this.usrHttp.post("http://127.0.0.1:8000/obtenerrecursos", ids, httpOptionsJWT);
-    return this.usrHttp.post(environment.apiUrlGetRes, ids, httpOptionsJWT);
+    return this.usrHttp.post("http://127.0.0.1:8000/obtenerrecursos", ids, httpOptionsJWT);
+    //return this.usrHttp.post(environment.apiUrlGetRes, ids, httpOptionsJWT);
   }
   get_icd10lan(){
     return this.usrHttp.get(environment.apiUrlGetIcdLan, httpOptionsJWT)
   }
-  set_act_dis(ids: any):Observable<any> {
-    //return this.usrHttp.post("http://127.0.0.1:8000/actividades_d", ids,  httpOptionsJWT)
-    return this.usrHttp.post(environment.apiUrlSetActEsp, ids,  httpOptionsJWT);
+  set_act_dis(ids: string):Observable<any> {
+    ids = encodeURIComponent("ICD10CM:Q90")
+    return this.usrHttp.post("http://127.0.0.1:8000/actividades_d?id_e="+ids,  httpOptionsJWT)
+    //return this.usrHttp.post(environment.apiUrlSetActEsp, ids,  httpOptionsJWT);
   }  
   get_one_act_dis(id: string){
     //return this.usrHttp.get("http://127.0.0.1:8000/actividad_d/"+id, httpOptionsJWT)
@@ -128,5 +130,12 @@ export class ServiciosService {
   get_act_dis(){
     //return this.usrHttp.get("http://127.0.0.1:8000/actividades_d", httpOptionsJWT)
     return this.usrHttp.get(environment.apiUrlGetActEsp, httpOptionsJWT)
+  }
+  get_act_rece(){
+    return this.usrHttp.get('http://127.0.0.1:8000/actividades_reci', httpOptionsJWT)
+  }
+
+  get_act_dis_rece(){
+    return this.usrHttp.get('http://127.0.0.1:8000/actividades_disc_reci', httpOptionsJWT)
   }
 }
