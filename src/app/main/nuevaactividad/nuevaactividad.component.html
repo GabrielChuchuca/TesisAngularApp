@@ -181,7 +181,7 @@
                               </tr>
                             </tbody>
                           </table>
-                          <pagination-controls id="list_csv" (pageChange)="page_csv = $event"></pagination-controls>
+                          <pagination-controls *ngIf="page_csv > 0" id="list_csv" (pageChange)="page_csv = $event"></pagination-controls>
                           <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="d-grid">
                             <button class="btn btn-outline-success my-2 my-sm-0" (click)="reg_news_ah()"  [disabled]="!conf">Crear</button>
                         </div>

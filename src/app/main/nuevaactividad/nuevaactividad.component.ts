@@ -27,7 +27,7 @@ export class NuevaactividadComponent implements OnInit {
   lIdRecu: any[] = [];
   lines:any[] = []; //for headings
   linesR:any[] = []; // for rows
-  page_csv: number = 1;
+  page_csv!: number;
   conf: boolean = false;
   lIndi: any;
   nindi: boolean = false
@@ -40,6 +40,7 @@ export class NuevaactividadComponent implements OnInit {
   page_diagl: number = 1;
   l_act_nue: any;
   codi: string
+  userName: string = sessionStorage.getItem('username');
   constructor(private ser:ServiciosService, private pRuta:Router) { }
 
   ngOnInit(): void {
@@ -125,7 +126,7 @@ export class NuevaactividadComponent implements OnInit {
     if (value === 'Actividad') {
       this.ser.get_indicadores().subscribe(i => {
         this.lIndi = i
-        console.log(this.lIndi)
+        //console.log(this.lIndi)
       })
       this.lBloq1 = []
       this.lComp1 = [] 
@@ -195,7 +196,7 @@ export class NuevaactividadComponent implements OnInit {
 
         this.lIdRecu.push(re_ac_ha.id)
         console.log(this.lIdRecu)*/
-      this.ser.obtener_recurso(re_ac_ha).subscribe(oo => {
+      this.ser.obtener_recurso(re_ac_ha, this.userName).subscribe(oo => {
         console.log(oo)
       })
       this.nNew_acti.Habilidad = ""
@@ -279,10 +280,15 @@ export class NuevaactividadComponent implements OnInit {
       
       this.ser.new_acti_habi(this.l_act_nue).subscribe(re_ac => {
         console.log(re_ac)
-        this.ser.obtener_recurso(re_ac).subscribe(oo => {
+        this.ser.obtener_recurso(re_ac, this.userName).subscribe(oo => {
           console.log(oo)
         })
       })
+      this.lines[0] = []
+      this.linesR[0] = []
+      this.page_csv = 0
+
+
       /*this.ser.obtener_recurso(this.lIdRecu).subscribe(oo => {
         console.log(oo)
       })*/
@@ -297,14 +303,15 @@ export class NuevaactividadComponent implements OnInit {
     delete this.nNew_acti.Bloque
     delete this.nNew_acti.Competencia
     delete this.nNew_acti.indicadores
+    this.page_csv = 1
     this.option = ""
     this.nNew_acti.Habilidad = ""
-    console.log((files.target as HTMLInputElement) .files)
+    console.log(typeof((files.target as HTMLInputElement) .files))
     let file : File = (files.target as HTMLInputElement) .files.item(0);
     console.log(typeof(file))
-    console.log(file.name)
-    console.log(file.size)
-    console.log(file.type)
+    //console.log(file.name)
+    //console.log(file.size)
+    //console.log(file.type)
     let reader: FileReader = new FileReader();
     reader.readAsText(file, 'ISO-8859-1');
     reader.onload = (e) => {

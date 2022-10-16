@@ -55,7 +55,7 @@
   <div class="w-auto">
     <a routerLink="/inicio"><button class="btn btn-warning"><span class="material-icons">
       arrow_back
-      </span></button></a><br><h1 *ngIf="a?.actividades != undefined; else hab"> {{a.actividades}} </h1><ng-template #hab> <h1 *ngIf="a?.Habilidad != undefined;else third"> {{a?.Habilidad}} </h1> </ng-template><ng-template #third> <h1> {{a?.Actividad}} </h1> </ng-template>
+      </span></button></a><br><h1 *ngIf="a?.actividades != undefined; else hab"> {{a.actividades}} </h1><ng-template #hab> <h1 *ngIf="a?.Habilidad != undefined;else third"> {{a?.Habilidad}} </h1> </ng-template><ng-template #third> <h1 *ngIf="a?.Actividad != undefined;else four"> {{a?.Actividad}} </h1> </ng-template><ng-template #four><h1>{{a?.Habilidad}}</h1></ng-template>
     <article>
       <mat-tab-group class="tab">
         <mat-tab label="Recurso Apps" *ngIf="recu[0][0].length > 0">

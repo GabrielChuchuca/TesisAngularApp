@@ -14,6 +14,7 @@ export class InicioComponent implements OnInit {
   sUsua: string = sessionStorage.getItem('username') || '';
   fechNaci:any;
   rol: string = sessionStorage.getItem('dRol');
+  diagLeng: any;
   diagnosticoMed: any;
   fA: Date = new Date();
   fN!: Date;
@@ -106,6 +107,36 @@ export class InicioComponent implements OnInit {
     end: 100,
     default: 100
   }
+
+  acti_reco_pr: any;
+  displayedColumnsARPR: string[] = ['actividades'];
+  dataSourceActiRecoPR!: MatTableDataSource<any>
+  @ViewChild('paginatorARPR') paginatorARPR: MatPaginator
+  sliceOptionsARPR = {
+    start: 0,
+    end: 100,
+    default: 100
+  }
+
+  acti_reco_disc_pr: any;
+  displayedColumnsARDPR: string[] = ['Actividad'];
+  dataSourceActiRecoDiscPR!: MatTableDataSource<any>
+  @ViewChild('paginatorARDPR') paginatorARDPR: MatPaginator
+  sliceOptionsADRPR = {
+    start: 0,
+    end: 100,
+    default: 100
+  }
+
+  acti_leng: any;
+  displayedColumnsALe: string[] = ['Habilidad'];
+  dataSourceActiLeng!: MatTableDataSource<any>
+  @ViewChild('paginatorALe') paginatorALe: MatPaginator
+  sliceOptionsALe = {
+    start: 0,
+    end: 100,
+    default: 100
+  }
   
   constructor(private ser:ServiciosService, private pRuta: Router) {}
 
@@ -117,17 +148,21 @@ export class InicioComponent implements OnInit {
     else{
       console.log(this.capa_espe)
       if(this.capa_espe == true){
+        this.diagLeng = sessionStorage.getItem('dDiagnosticoLen').split(",");
         this.diagnosticoMed = sessionStorage.getItem('dDiagnosticoMed').split(",");
         console.log(this.diagnosticoMed)
         if (this.diagnosticoMed.length == 1) {
+          console.time("actividades discapacidad 1")
           console.log(this.diagnosticoMed[0])
           this.ser.set_act_dis(this.diagnosticoMed[0]).subscribe(acdi => {
             this.some_acti_disc = acdi
-            console.log(this.some_acti_disc)
+            //console.log(this.some_acti_disc)
             this.dataSourceActiDisc = new MatTableDataSource(this.some_acti_disc)
             this.dataSourceActiDisc.paginator = this.paginatorAD
           })
+          console.timeEnd("actividades discapacidad 1")
         }else if(this.diagnosticoMed.length == 2){
+          console.time("actividades discapacidad 1,2")
           this.ser.set_act_dis(this.diagnosticoMed[0]).subscribe(acdi => {
             this.some_acti_disc = acdi
             this.dataSourceActiDisc = new MatTableDataSource(this.some_acti_disc)
@@ -138,7 +173,9 @@ export class InicioComponent implements OnInit {
             this.dataSourceActiDisc2 = new MatTableDataSource(this.some_acti_disc_2)
             this.dataSourceActiDisc2.paginator = this.paginatorAD2
           })
+          console.timeEnd("actividades discapacidad 1,2")
         }else if(this.diagnosticoMed.length == 3){
+          console.time("actividades discapacidad 1,2,3")
           this.ser.set_act_dis(this.diagnosticoMed[0]).subscribe(acdi => {
             this.some_acti_disc = acdi
             this.dataSourceActiDisc = new MatTableDataSource(this.some_acti_disc)
@@ -154,7 +191,34 @@ export class InicioComponent implements OnInit {
             this.dataSourceActiDisc3 = new MatTableDataSource(this.some_acti_disc_3)
             this.dataSourceActiDisc3.paginator = this.paginatorAD3
           })
+          console.timeEnd("actividades discapacidad 1,2,3")
         }
+        this.ser.set_act_reco_disc_pr(this.diagnosticoMed).subscribe(ac_reco_disc_pr => {
+          console.time("actividades especiales recomendadas")
+          this.acti_reco_disc_pr = ac_reco_disc_pr
+          this.dataSourceActiRecoDiscPR = new MatTableDataSource(this.acti_reco_disc_pr)
+          this.dataSourceActiRecoDiscPR.paginator = this.paginatorARDPR
+          console.timeEnd("actividades especiales recomendadas")
+        })
+        this.ser.set_act_dis_rece(this.diagnosticoMed).subscribe(ac_di_reci => {
+          console.time("actividades discapacidad recientes")
+          this.acti_disc_reci = ac_di_reci
+          this.dataSourceActiDiscReci = new MatTableDataSource(this.acti_disc_reci)
+          this.dataSourceActiDiscReci.paginator = this.paginatorADR
+          console.timeEnd("actividades discapacidad recientes")
+        })
+        console.log(this.diagLeng)
+        if(this.diagLeng.length >= 1){
+          this.ser.get_acti_leng().subscribe(ac_le => {
+            console.time("actividades de lenguaje")
+            this.acti_leng = ac_le
+            //console.log(this.acti_leng)
+            this.dataSourceActiLeng = new MatTableDataSource(this.acti_leng)
+            this.dataSourceActiLeng.paginator = this.paginatorALe
+            console.timeEnd("actividades de lenguaje")
+          })
+        }
+
         ///this.ser.set_act_dis(this.diagnosticoMed).subscribe(acdi => {
           /*this.some_acti_disc = acdi
           this.dataSourceActiDisc = new MatTableDataSource(this.some_acti_disc)
@@ -200,6 +264,13 @@ export class InicioComponent implements OnInit {
           this.dataSourceActiDiscReci = new MatTableDataSource(this.acti_disc_reci)
           this.dataSourceActiDiscReci.paginator = this.paginatorADR
           console.timeEnd("actividades discapacidad recientes")
+        })
+        this.ser.get_act_reco_pr().subscribe(ac_reco_pr => {
+          console.time("actividades recomendadas pr")
+          this.acti_reco_pr = ac_reco_pr
+          this.dataSourceActiRecoPR = new MatTableDataSource(this.acti_reco_pr)
+          this.dataSourceActiRecoPR.paginator = this.paginatorARPR
+          console.timeEnd("actividades recomendadas pr")
         })
         /*this.ser.get_indicadores().subscribe(i => {
           this.indi = i;
@@ -249,7 +320,17 @@ export class InicioComponent implements OnInit {
     this.sliceOptionsAD3.end = this.sliceOptionsAD3.end?undefined:this.sliceOptionsAD3.default;
     console.log(this.sliceOptionsAD3.end)
   }
-  applyFilterAL(event){
+  onExpandTextARPR(evt:any):void{
+    this.sliceOptionsARPR.end = this.sliceOptionsARPR.end?undefined:this.sliceOptionsARPR.default;
+
+  }
+  onExpandTextALe(evt:any):void{
+    this.sliceOptionsALe.end = this.sliceOptionsALe.end?undefined:this.sliceOptionsALe.default;
+  }
+  onExpandTextADRPR(evt: any): void{
+    this.sliceOptionsADRPR.end = this.sliceOptionsADRPR.end?undefined:this.sliceOptionsADRPR.default;
+  }
+  applyFilterAL(event):void{
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSourceActiLibr.filter  = filterValue.trim().toLowerCase()
     if(this.dataSourceActiLibr.paginator){
@@ -286,11 +367,33 @@ export class InicioComponent implements OnInit {
       this.dataSourceActiDisc.paginator.firstPage()
     }
   }
+  applyFilterAD2(event){
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceActiDisc2.filter  = filterValue.trim().toLowerCase()
+    if(this.dataSourceActiDisc2.paginator){
+      this.dataSourceActiDisc2.paginator.firstPage()
+    }
+  }
+  applyFilterAD3(event){
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceActiDisc3.filter  = filterValue.trim().toLowerCase()
+    if(this.dataSourceActiDisc3.paginator){
+      this.dataSourceActiDisc3.paginator.firstPage()
+    }
+  }
+
   applyFilterADR(event){
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSourceActiDiscReci.filter  = filterValue.trim().toLowerCase()
     if(this.dataSourceActiDiscReci.paginator){
       this.dataSourceActiDiscReci.paginator.firstPage()
+    }
+  }
+  applyFilterALe(event){
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceActiLeng.filter = filterValue.trim().toLowerCase()
+    if(this.dataSourceActiLeng.paginator){
+      this.dataSourceActiLeng.paginator.firstPage()
     }
   }
   

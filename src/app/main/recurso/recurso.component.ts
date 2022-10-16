@@ -39,8 +39,6 @@ export class RecursoComponent implements OnInit {
   tiem!: number;
   rol: string = sessionStorage.getItem('dRol');
   a: any;
-
-
   constructor(private ser:ServiciosService ,private route:ActivatedRoute, private pRuta:Router, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
@@ -74,6 +72,16 @@ export class RecursoComponent implements OnInit {
               //console.log("if", id)
               this.ser.get_one_act_dis(id).subscribe(ad => {
                 this.a = ad
+                if(this.a == null){
+                  this.ser.get_one_acti_reci(id).subscribe(ar => {
+                    this.a = ar
+                    if(this.a == null){
+                      this.ser.get_one_acti_espe_reci(id).subscribe(aer => {
+                        this.a = aer
+                      })
+                    }
+                  })
+                }
                 ///console.log(this.a)
               })
             }
@@ -104,7 +112,7 @@ export class RecursoComponent implements OnInit {
   obtenerIdRecurso(id: string){
     this.ser.get_one_resource(id).subscribe(rec => {
       this.recu = rec;
-      console.log(this.recu)
+      //console.log(this.recu)
       if (this.recu[0][0].length == 0 && this.recu[0][1].length == 0 && this.recu[0][2].length == 0 && this.recu[0][3].length == 0 && this.recu[0][4].length == 0 && this.recu[0][5].length == 0) {
         alert("No se encontro ningun recurso");
         this.pRuta.navigateByUrl('/inicio');

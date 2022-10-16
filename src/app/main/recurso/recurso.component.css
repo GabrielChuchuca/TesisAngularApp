@@ -28,7 +28,7 @@ span:hover {
  
 tr:nth-child(even){background-color: #f2f2f2}
 
-@media(max-width:500px){
+/*@media(max-width:500px){
    .table thead{
        display: none;
    }
@@ -55,7 +55,7 @@ tr:nth-child(even){background-color: #f2f2f2}
        background-color: darkblue;
        color: #ffffff
    }
-}
+}*/
 
 
 .iframe-container {
