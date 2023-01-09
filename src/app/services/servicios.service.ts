@@ -117,7 +117,7 @@ export class ServiciosService {
   obtener_recurso(ids: any, us: string) {
     us = encodeURIComponent(us)
     //return this.usrHttp.post("http://127.0.0.1:8000/obtenerrecursos?u="+us, ids, httpOptionsJWT);
-    return this.usrHttp.post(environment.apiUrlGetRes, ids, httpOptionsJWT);
+    return this.usrHttp.post(environment.apiUrlGetRes+"?u="+us, ids, httpOptionsJWT);
   }
   get_icd10lan(){
     return this.usrHttp.get(environment.apiUrlGetIcdLan, httpOptionsJWT)
